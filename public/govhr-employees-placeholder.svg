@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">GovHR employee directory screenshot placeholder</title>
+  <desc id="desc">Placeholder for the RVerse GovHR employee directory screenshot.</desc>
+  <rect width="1440" height="900" fill="#f8fafc"/>
+  <rect x="0" y="0" width="1440" height="92" fill="#123f63"/>
+  <text x="48" y="58" fill="#ffffff" font-family="Arial, sans-serif" font-size="28" font-weight="700">Employee Directory</text>
+  <rect x="48" y="132" width="1344" height="96" rx="18" fill="#ffffff" stroke="#e2e8f0"/>
+  <rect x="48" y="252" width="1344" height="560" rx="18" fill="#ffffff" stroke="#e2e8f0"/>
+  <g fill="#e2e8f0">
+    <rect x="84" y="166" width="360" height="28" rx="8"/>
+    <rect x="472" y="166" width="164" height="28" rx="8"/>
+    <rect x="660" y="166" width="164" height="28" rx="8"/>
+    <rect x="84" y="302" width="1272" height="52" rx="10"/>
+    <rect x="84" y="378" width="1272" height="52" rx="10"/>
+    <rect x="84" y="454" width="1272" height="52" rx="10"/>
+    <rect x="84" y="530" width="1272" height="52" rx="10"/>
+    <rect x="84" y="606" width="1272" height="52" rx="10"/>
+  </g>
+  <text x="720" y="803" text-anchor="middle" fill="#64748b" font-family="Arial, sans-serif" font-size="28" font-weight="700">Screenshot placeholder - Employee Directory</text>
+</svg>

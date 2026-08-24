@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">GovHR salary schedule screenshot placeholder</title>
+  <desc id="desc">Placeholder for the RVerse GovHR salary schedule screenshot.</desc>
+  <rect width="1440" height="900" fill="#f8fafc"/>
+  <rect x="48" y="56" width="540" height="788" rx="24" fill="#123f63"/>
+  <text x="96" y="136" fill="#ffffff" font-family="Arial, sans-serif" font-size="36" font-weight="700">Salary Schedule Explorer</text>
+  <text x="96" y="178" fill="#dbeafe" font-family="Arial, sans-serif" font-size="18">Salary grades, steps, year, and tranche references</text>
+  <rect x="636" y="56" width="756" height="788" rx="24" fill="#ffffff" stroke="#e2e8f0"/>
+  <g fill="#e2e8f0">
+    <rect x="684" y="112" width="644" height="52" rx="10"/>
+    <rect x="684" y="196" width="644" height="52" rx="10"/>
+    <rect x="684" y="280" width="644" height="52" rx="10"/>
+    <rect x="684" y="364" width="644" height="52" rx="10"/>
+    <rect x="684" y="448" width="644" height="52" rx="10"/>
+    <rect x="684" y="532" width="644" height="52" rx="10"/>
+  </g>
+  <text x="720" y="812" text-anchor="middle" fill="#64748b" font-family="Arial, sans-serif" font-size="28" font-weight="700">Screenshot placeholder - Salary Schedule</text>
+</svg>

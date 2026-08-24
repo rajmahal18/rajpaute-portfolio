@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="description" content="Raj Paute — Software Engineer building full-stack systems for real operations." />
+    <meta name="robots" content="index,follow" />
+    <meta property="og:title" content="Raj Paute — Software Engineer" />
+    <meta property="og:description" content="Full-stack systems for real operations, public tools, and production workflows." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Raj Paute" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Raj Paute — Software Engineer" />
+    <meta name="twitter:description" content="Full-stack systems for real operations, public tools, and production workflows." />
+    <link rel="icon" href="/favicon.ico" />
+    <title>Raj Paute — Software Engineer</title>
+    <script>
+      (() => {
+        try {
+          const saved = localStorage.getItem("portfolio-theme");
+          const theme = saved === "dark" || saved === "light"
+            ? saved
+            : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+        } catch {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

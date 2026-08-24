@@ -1,0 +1,9 @@
+# Copy to .dev.vars only when using a local Cloudflare Pages Functions environment.
+# Never commit .dev.vars.
+MATH_OWNER_USERNAME=your-owner-username
+MATH_OWNER_PASSWORD=use-a-strong-password
+MATH_SESSION_SECRET=replace-with-a-long-random-secret
+
+# GitHub GraphQL token for the live contribution calendar
+GITHUB_TOKEN=
+GITHUB_USERNAME=rajmahal18
