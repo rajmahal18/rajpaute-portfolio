@@ -170,7 +170,7 @@ export default function MentalMathChallenge() {
 
       {session.phase === "idle" && (
         <div className="mental-math-idle">
-          <p id="mental-math-title">Think you can beat me?</p>
+          <p id="mental-math-title">Mental math, you vs me.</p>
           <button type="button" className="mental-math-start" onClick={begin}>Give me one</button>
         </div>
       )}

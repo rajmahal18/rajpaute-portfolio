@@ -28,8 +28,8 @@ export const projects = [
     description:
       "Production tournament operations and public live-event platform for MPW Dink & Dash 2026, built around a configurable multi-division engine, concurrency-safe scoring, dynamic brackets, team workflows, fan engagement, analytics, and event recovery.",
     link: "https://mpwdinkanddash.cotabatopickleball.com",
-    screenshot: "/mpwdinkanddash.png",
-    screenshots: ["/mpwdinkanddash.png"],
+    screenshot: "/mpwdnd.png",
+    screenshots: ["/mpwdnd.png"],
     realWorld: {
       usedIn: "MPW Dink & Dash 2026 pickleball tournament",
       usedBy: "Tournament organizers, scoring operators, team managers, players, and public spectators",
@@ -351,8 +351,8 @@ export const projects = [
       "Built for internal government document routing and monitoring. The system helps staff track document status, routing history, assigned offices, and movement logs with role-based access and audit visibility.",
 
     link: "https://doctracker.mpwppd.online",
-    screenshot: "/mpw.png",
-    screenshots: ["/mpw.png", "/dt2.png", "/dt3.png", "/dt5.png", "/dt1.png"],
+    screenshot: "/mpwdts.png",
+    screenshots: ["/mpwdts.png", "/dt2.png", "/dt3.png", "/dt5.png", "/dt1.png"],
 
     realWorld: {
       usedIn: "Ministry of Public Works – Technical Services",
@@ -903,6 +903,7 @@ export const projects = [
     description:
       "Clinic records and inventory system for managing patient records, consultations, medicine stock, dispensing activity, and operational reports.",
     link: "#",
+    screenshot: "/ocmtheclinic.png",
 
     realWorld: {
       usedIn: "Clinic operations",

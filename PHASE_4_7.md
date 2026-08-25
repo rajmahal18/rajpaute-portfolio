@@ -5,7 +5,7 @@ This patch makes the portfolio feel authored by Raj rather than narrated by a ne
 ## Conversation layer
 
 - Home now adds small first-person context around Selected work and Contact.
-- Mental Math speaks in Raj's voice before and after an attempt (`Think you can beat me?`, `Okay, you got me`, `I had this one`, `Another one`).
+- Mental Math speaks in Raj's voice before and after an attempt (`Let’s see how you stack up against me in mental math.`, `Okay, you got me`, `I had this one`, `Another one`).
 - Work gets one short first-person orientation line instead of additional UI.
 - About adds an inline `Quick questions` interaction with four prewritten answers. It is page content, not a modal or chatbot.
 - GitHub activity gets a single authored context line.

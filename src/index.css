@@ -551,7 +551,25 @@ img { height: auto; }
   font-weight: 500;
 }
 
-.project-live-link { margin-top: 20px; }
+.project-live-link {
+  width: min(100%, 150px);
+  min-height: 42px;
+  margin-top: 20px;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 12px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.project-live-link svg {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+}
 
 .project-hero-visual,
 .project-visual {

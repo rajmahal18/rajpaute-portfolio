@@ -77,7 +77,7 @@ export default function ProjectPage({ slug }) {
         </div>
         {liveLink && (
           <a href={liveLink} target="_blank" rel="noreferrer" className="text-link project-live-link">
-            Visit live site <ArrowUpRightIcon />
+            View live site <ArrowUpRightIcon />
           </a>
         )}
       </header>
