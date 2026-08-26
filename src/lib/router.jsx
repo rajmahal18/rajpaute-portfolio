@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useRef, useState } from "r
 
 const RouterContext = createContext(null);
 const SCROLL_PREFIX = "raj-paute-scroll:";
+export const ROUTE_INTENT_EVENT = "raj-paute:route-intent";
 
 const createKey = () => Math.random().toString(36).slice(2) + Date.now().toString(36);
 const normalizePath = (path) => path !== "/" ? String(path || "/").replace(/\/+$/, "") || "/" : "/";
@@ -51,6 +52,14 @@ function restoreScrollForKey(key) {
   });
 }
 
+function requestRouteTransition(detail) {
+  const event = new CustomEvent(ROUTE_INTENT_EVENT, {
+    cancelable: true,
+    detail,
+  });
+  return !window.dispatchEvent(event);
+}
+
 export function RouterProvider({ children }) {
   const [route, setRoute] = useState(() => ({
     path: normalizePath(window.location.pathname),
@@ -84,7 +93,7 @@ export function RouterProvider({ children }) {
     };
   }, []);
 
-  const navigate = (to, options = {}) => {
+  const performNavigate = (to, options = {}) => {
     if (!to || normalizePath(to) === routeRef.current.path) return;
     saveScrollForKey(routeRef.current.key);
     const key = createKey();
@@ -101,9 +110,37 @@ export function RouterProvider({ children }) {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   };
 
+  const navigate = (to, options = {}) => {
+    if (!to || normalizePath(to) === routeRef.current.path) return;
+    if (options.immediate) {
+      performNavigate(to, options);
+      return;
+    }
+
+    const commit = () => performNavigate(to, { ...options, immediate: true });
+    const claimed = requestRouteTransition({
+      kind: "push",
+      to: normalizePath(to),
+      from: routeRef.current.path,
+      commit,
+    });
+    if (!claimed) commit();
+  };
+
   const goBack = (fallback = "/work") => {
-    if (window.history.state?.__portfolioFrom) window.history.back();
-    else navigate(fallback, { replace: true });
+    const canGoBack = Boolean(window.history.state?.__portfolioFrom);
+    const commit = () => {
+      if (canGoBack) window.history.back();
+      else performNavigate(fallback, { replace: true, immediate: true });
+    };
+
+    const claimed = requestRouteTransition({
+      kind: "back",
+      to: canGoBack ? null : normalizePath(fallback),
+      from: routeRef.current.path,
+      commit,
+    });
+    if (!claimed) commit();
   };
 
   const value = { path: route.path, navigate, goBack };

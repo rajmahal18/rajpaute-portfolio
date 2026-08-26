@@ -33,6 +33,7 @@ html[data-theme="dark"] {
 
 * { box-sizing: border-box; }
 html, body, #root { width: 100%; max-width: 100%; overflow-x: clip; }
+#root { position: relative; isolation: isolate; }
 html { background: var(--paper); scroll-behavior: auto; }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
 main, section, article, nav, div { min-width: 0; }
@@ -44,7 +45,35 @@ img { height: auto; }
 ::selection { background: var(--ink); color: var(--paper); }
 :focus-visible { outline: 1.5px solid var(--ink); outline-offset: 4px; }
 
-.app-shell { min-height: 100vh; background: var(--paper); }
+.app-shell {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  background: var(--paper);
+}
+
+/* During the shutter pass, foreground pixels stay above the moving background.
+   Difference blending keeps monochrome content legible over both halves of the wipe. */
+.app-shell.is-theme-transitioning {
+  --paper: transparent;
+  --ink: #ffffff;
+  --muted: rgba(255, 255, 255, 0.66);
+  --quiet: rgba(255, 255, 255, 0.45);
+  --line: rgba(255, 255, 255, 0.15);
+  --line-strong: rgba(255, 255, 255, 0.30);
+  --wash: rgba(255, 255, 255, 0.035);
+  --header: transparent;
+  background: transparent;
+  color: #ffffff;
+  mix-blend-mode: difference;
+}
+
+.app-shell.is-theme-transitioning .site-header {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
 
 /* The desktop canvas is deliberately narrow. Empty space is part of the design. */
 .site-shell {
@@ -1102,4 +1131,925 @@ button.github-day {
   .quick-question-button span { font-size: clamp(16px, 4.7vw, 19px); }
   .quick-answer.is-visible { padding-top: 22px; }
   .quick-answer p { font-size: 11px; line-height: 1.78; }
+}
+
+/* Math companion polish — scroll track, continuous gait, and physical theme transition. */
+.theme-curtain-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.theme-curtain-sheet {
+  position: absolute;
+  inset: -1px 0 0;
+  background: #000000;
+  will-change: transform;
+}
+
+.theme-curtain-sheet::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.theme-curtain-layer--closing .theme-curtain-sheet {
+  animation: theme-curtain-close var(--theme-curtain-duration, 940ms) cubic-bezier(.58,.02,.18,1) both;
+}
+
+.theme-curtain-layer--opening .theme-curtain-sheet {
+  animation: theme-curtain-open var(--theme-curtain-duration, 940ms) cubic-bezier(.42,0,.16,1) both;
+}
+
+@keyframes theme-curtain-close {
+  from { transform: translate3d(0, -100%, 0); }
+  to { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes theme-curtain-open {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, -100%, 0); }
+}
+
+.math-companion-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  overflow: hidden;
+  color: var(--ink);
+}
+
+.math-companion-stage {
+  --companion-x: -30px;
+  --companion-y: calc(100vh - 180px);
+  --companion-facing: 1;
+  --companion-look-x: 0px;
+  --companion-look-y: 0px;
+  --companion-lean: 0deg;
+  --companion-gait-y: 0px;
+  --companion-gait-rotate: 0deg;
+  --companion-arm-left: 0deg;
+  --companion-arm-right: 0deg;
+  --companion-leg-left: 0deg;
+  --companion-leg-right: 0deg;
+  --companion-knee-left: 0deg;
+  --companion-knee-right: 0deg;
+  --companion-foot-left: 0deg;
+  --companion-foot-right: 0deg;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 84px;
+  height: 110px;
+  opacity: 0;
+  transform: translate3d(var(--companion-x), var(--companion-y), 0);
+  will-change: transform;
+  z-index: 3;
+}
+
+.math-companion-layer.is-ready .math-companion-stage { opacity: 1; }
+.math-companion-layer.is-ready .math-companion-figure {
+  animation: math-companion-enter 560ms cubic-bezier(.16,.8,.18,1) both;
+}
+
+.math-companion-hitbox {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: currentColor;
+  cursor: pointer;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+}
+.math-companion-hitbox:disabled { cursor: default; }
+.math-companion-svg { display: block; width: 100%; height: 100%; overflow: visible; }
+
+.math-companion-figure {
+  transform-box: view-box;
+  transform-origin: 60px 84px;
+  transform: scaleX(var(--companion-facing));
+  /* Facing flips are intentionally immediate; interpolating scaleX would squash the figure through zero. */
+  transition: none;
+}
+
+.math-companion-body {
+  transform-box: view-box;
+  transform-origin: 60px 130px;
+  transform: translateY(var(--companion-gait-y)) rotate(calc(var(--companion-lean) + var(--companion-gait-rotate)));
+  transition: transform 170ms ease-out;
+}
+
+.math-companion-head-wrap {
+  transform-box: view-box;
+  transform-origin: 60px 36px;
+  transform: translate(var(--companion-look-x), var(--companion-look-y));
+  transition: transform 140ms cubic-bezier(.2,.72,.2,1);
+}
+
+.math-companion-arm,
+.math-companion-leg,
+.math-companion-torso {
+  transform-box: view-box;
+}
+.math-companion-arm { transform-origin: 60px 60px; transition: transform 70ms linear; }
+.math-companion-leg { transform-origin: 60px 88px; transition: transform 64ms linear; }
+.math-companion-shin {
+  transform-box: view-box;
+  transform-origin: 60px 109px;
+  transition: transform 64ms linear;
+}
+.math-companion-torso { transform-origin: 60px 88px; }
+.math-companion-arm-left { transform: rotate(var(--companion-arm-left)); }
+.math-companion-arm-right { transform: rotate(var(--companion-arm-right)); }
+.math-companion-leg-left { transform: rotate(var(--companion-leg-left)); }
+.math-companion-leg-right { transform: rotate(var(--companion-leg-right)); }
+.math-companion-shin-left { transform: rotate(var(--companion-knee-left)); }
+.math-companion-shin-right { transform: rotate(var(--companion-knee-right)); }
+.math-companion-foot {
+  transform-box: view-box;
+  transform-origin: 60px 130px;
+  stroke-width: 1.8;
+  transition: transform 64ms linear;
+}
+.math-companion-foot-left { transform: rotate(var(--companion-foot-left)); }
+.math-companion-foot-right { transform: rotate(var(--companion-foot-right)); }
+.math-companion-curtain-handle {
+  opacity: 0;
+  stroke-width: 1.35;
+  transition: opacity 120ms ease;
+}
+
+.math-companion-hand-cue {
+  opacity: 0;
+  transform-box: view-box;
+  transform-origin: 88px 72px;
+  transition: opacity 160ms ease, transform 180ms ease;
+}
+.math-companion-hitbox:hover .math-companion-hand-cue,
+.math-companion-hitbox:focus-visible .math-companion-hand-cue {
+  opacity: .42;
+  transform: rotate(45deg) scale(1.02);
+}
+
+/* Walking/running pose comes continuously from distance travelled in JS, so gait does not restart on each scroll event. */
+.math-companion-stage.is-walking .math-companion-figure,
+.math-companion-stage.is-brisk-walking .math-companion-figure,
+.math-companion-stage.is-running .math-companion-figure,
+.math-companion-stage.is-sprinting .math-companion-figure { opacity: 1; }
+
+.math-companion-stage.is-resting .math-companion-body {
+  transform: translateY(5px) rotate(-1.2deg);
+}
+.math-companion-stage.is-resting .math-companion-leg-left { transform: rotate(18deg); }
+.math-companion-stage.is-resting .math-companion-leg-right { transform: rotate(-20deg); }
+.math-companion-stage.is-resting .math-companion-arm-left { transform: rotate(8deg); }
+.math-companion-stage.is-resting .math-companion-arm-right { transform: rotate(-8deg); }
+
+/* Long idle becomes a quiet cross-legged seated pose. It stays abstract and
+   geometric; the figure stands up before any action or locomotion resumes. */
+.math-companion-stage.is-meditating .math-companion-body {
+  transform: translateY(19px) rotate(0deg);
+  animation: math-companion-meditate-breathe 3.4s ease-in-out infinite;
+}
+.math-companion-stage.is-meditating .math-companion-arm-left { transform: rotate(43deg); transition-duration: 420ms; }
+.math-companion-stage.is-meditating .math-companion-arm-right { transform: rotate(-43deg); transition-duration: 420ms; }
+.math-companion-stage.is-meditating .math-companion-leg-left { transform: rotate(58deg); transition-duration: 420ms; }
+.math-companion-stage.is-meditating .math-companion-leg-right { transform: rotate(-58deg); transition-duration: 420ms; }
+.math-companion-stage.is-meditating .math-companion-shin-left { transform: rotate(-77deg); transition-duration: 420ms; }
+.math-companion-stage.is-meditating .math-companion-shin-right { transform: rotate(77deg); transition-duration: 420ms; }
+.math-companion-stage.is-meditating .math-companion-foot-left { transform: rotate(14deg); transition-duration: 420ms; }
+.math-companion-stage.is-meditating .math-companion-foot-right { transform: rotate(-14deg); transition-duration: 420ms; }
+.math-companion-stage.is-meditating .math-companion-hand-cue { opacity: 0; }
+
+.math-companion-stage.is-standing-up .math-companion-body,
+.math-companion-stage.is-theme-stand .math-companion-body,
+.math-companion-stage.is-portal-stand .math-companion-body { animation: math-companion-stand-body 340ms cubic-bezier(.22,.72,.2,1) both; }
+.math-companion-stage.is-standing-up .math-companion-arm-left,
+.math-companion-stage.is-theme-stand .math-companion-arm-left,
+.math-companion-stage.is-portal-stand .math-companion-arm-left { animation: math-companion-stand-arm-left 340ms cubic-bezier(.22,.72,.2,1) both; }
+.math-companion-stage.is-standing-up .math-companion-arm-right,
+.math-companion-stage.is-theme-stand .math-companion-arm-right,
+.math-companion-stage.is-portal-stand .math-companion-arm-right { animation: math-companion-stand-arm-right 340ms cubic-bezier(.22,.72,.2,1) both; }
+.math-companion-stage.is-standing-up .math-companion-leg-left,
+.math-companion-stage.is-theme-stand .math-companion-leg-left,
+.math-companion-stage.is-portal-stand .math-companion-leg-left { animation: math-companion-stand-leg-left 340ms cubic-bezier(.22,.72,.2,1) both; }
+.math-companion-stage.is-standing-up .math-companion-leg-right,
+.math-companion-stage.is-theme-stand .math-companion-leg-right,
+.math-companion-stage.is-portal-stand .math-companion-leg-right { animation: math-companion-stand-leg-right 340ms cubic-bezier(.22,.72,.2,1) both; }
+.math-companion-stage.is-standing-up .math-companion-shin-left,
+.math-companion-stage.is-theme-stand .math-companion-shin-left,
+.math-companion-stage.is-portal-stand .math-companion-shin-left { animation: math-companion-stand-shin-left 340ms cubic-bezier(.22,.72,.2,1) both; }
+.math-companion-stage.is-standing-up .math-companion-shin-right,
+.math-companion-stage.is-theme-stand .math-companion-shin-right,
+.math-companion-stage.is-portal-stand .math-companion-shin-right { animation: math-companion-stand-shin-right 340ms cubic-bezier(.22,.72,.2,1) both; }
+
+/* UI reactions use anticipation -> action -> follow-through -> recovery rather than pose jumps. */
+.math-companion-stage.is-pointing .math-companion-body {
+  animation: math-companion-point-body 660ms cubic-bezier(.2,.72,.2,1) both;
+}
+.math-companion-stage.is-pointing .math-companion-arm-right {
+  animation: math-companion-point-arm 660ms cubic-bezier(.2,.72,.2,1) both;
+}
+.math-companion-stage.is-pointing .math-companion-arm-left {
+  animation: math-companion-point-counter 660ms cubic-bezier(.2,.72,.2,1) both;
+}
+
+/* Theme choreography keeps the stage transform under JS control so every
+   phase starts from the character's real last coordinate. CSS only supplies
+   body poses; this prevents the old top/bottom snap between keyframes. */
+.math-companion-stage.is-leap-up .math-companion-body {
+  animation: math-companion-leap-up-body var(--companion-leap-duration, var(--companion-prep-duration, 460ms)) cubic-bezier(.18,.78,.18,1) both;
+}
+.math-companion-stage.is-leap-up .math-companion-arm-left {
+  animation: math-companion-leap-up-arm-left var(--companion-leap-duration, var(--companion-prep-duration, 460ms)) cubic-bezier(.18,.78,.18,1) both;
+}
+.math-companion-stage.is-leap-up .math-companion-arm-right {
+  animation: math-companion-leap-up-arm-right var(--companion-leap-duration, var(--companion-prep-duration, 460ms)) cubic-bezier(.18,.78,.18,1) both;
+}
+.math-companion-stage.is-leap-up .math-companion-leg-left {
+  animation: math-companion-leap-up-leg-left var(--companion-leap-duration, var(--companion-prep-duration, 460ms)) cubic-bezier(.18,.78,.18,1) both;
+}
+.math-companion-stage.is-leap-up .math-companion-leg-right {
+  animation: math-companion-leap-up-leg-right var(--companion-leap-duration, var(--companion-prep-duration, 460ms)) cubic-bezier(.18,.78,.18,1) both;
+}
+.math-companion-stage.is-drop-bottom .math-companion-body {
+  animation: math-companion-drop-body var(--companion-prep-duration, 460ms) cubic-bezier(.3,.02,.22,1) both;
+}
+.math-companion-stage.is-drop-bottom .math-companion-arm-left {
+  animation: math-companion-grab-low-arm-left var(--companion-prep-duration, 460ms) cubic-bezier(.3,.02,.22,1) both;
+}
+.math-companion-stage.is-drop-bottom .math-companion-arm-right {
+  animation: math-companion-grab-low-arm-right var(--companion-prep-duration, 460ms) cubic-bezier(.3,.02,.22,1) both;
+}
+.math-companion-stage.is-drop-bottom .math-companion-leg-left {
+  animation: math-companion-drop-leg-left var(--companion-prep-duration, 460ms) cubic-bezier(.3,.02,.22,1) both;
+}
+.math-companion-stage.is-drop-bottom .math-companion-leg-right {
+  animation: math-companion-drop-leg-right var(--companion-prep-duration, 460ms) cubic-bezier(.3,.02,.22,1) both;
+}
+.math-companion-stage.is-curtain-down .math-companion-body,
+.math-companion-stage.is-curtain-up .math-companion-body {
+  animation: math-companion-curtain-body var(--companion-curtain-duration, 940ms) cubic-bezier(.2,.75,.18,1) both;
+}
+.math-companion-stage.is-curtain-down .math-companion-arm-left,
+.math-companion-stage.is-curtain-up .math-companion-arm-left {
+  animation: math-companion-curtain-arm-left var(--companion-curtain-duration, 940ms) cubic-bezier(.2,.75,.18,1) both;
+}
+.math-companion-stage.is-curtain-down .math-companion-arm-right,
+.math-companion-stage.is-curtain-up .math-companion-arm-right {
+  animation: math-companion-curtain-arm-right var(--companion-curtain-duration, 940ms) cubic-bezier(.2,.75,.18,1) both;
+}
+.math-companion-stage.is-curtain-down .math-companion-leg-left,
+.math-companion-stage.is-curtain-up .math-companion-leg-left {
+  animation: math-companion-curtain-leg-left var(--companion-curtain-duration, 940ms) cubic-bezier(.2,.75,.18,1) both;
+}
+.math-companion-stage.is-curtain-down .math-companion-leg-right,
+.math-companion-stage.is-curtain-up .math-companion-leg-right {
+  animation: math-companion-curtain-leg-right var(--companion-curtain-duration, 940ms) cubic-bezier(.2,.75,.18,1) both;
+}
+.math-companion-stage.is-edge-top .math-companion-body,
+.math-companion-stage.is-edge-bottom .math-companion-body {
+  transform: translateY(1px) rotate(-1deg);
+}
+.math-companion-stage.is-edge-top .math-companion-arm-left,
+.math-companion-stage.is-edge-bottom .math-companion-arm-left { transform: rotate(38deg); }
+.math-companion-stage.is-edge-top .math-companion-arm-right,
+.math-companion-stage.is-edge-bottom .math-companion-arm-right { transform: rotate(-38deg); }
+.math-companion-stage.is-rejoin-bottom .math-companion-body {
+  animation: math-companion-soft-land 360ms cubic-bezier(.2,.76,.2,1) both;
+}
+.math-companion-stage.is-rejoin-bottom .math-companion-arm-left,
+.math-companion-stage.is-leap-down .math-companion-arm-left {
+  animation: math-companion-release-arm-left var(--companion-return-duration, 680ms) cubic-bezier(.2,.76,.2,1) both;
+}
+.math-companion-stage.is-rejoin-bottom .math-companion-arm-right,
+.math-companion-stage.is-leap-down .math-companion-arm-right {
+  animation: math-companion-release-arm-right var(--companion-return-duration, 680ms) cubic-bezier(.2,.76,.2,1) both;
+}
+.math-companion-stage.is-leap-down .math-companion-body {
+  animation: math-companion-leap-down-body var(--companion-return-duration, 680ms) cubic-bezier(.24,.02,.22,1) both;
+}
+.math-companion-stage.is-leap-down .math-companion-leg-left {
+  animation: math-companion-leap-down-leg-left var(--companion-return-duration, 680ms) cubic-bezier(.24,.02,.22,1) both;
+}
+.math-companion-stage.is-leap-down .math-companion-leg-right {
+  animation: math-companion-leap-down-leg-right var(--companion-return-duration, 680ms) cubic-bezier(.24,.02,.22,1) both;
+}
+.math-companion-stage.is-leap-up .math-companion-hand-cue,
+.math-companion-stage.is-drop-bottom .math-companion-hand-cue,
+.math-companion-stage.is-curtain-down .math-companion-hand-cue,
+.math-companion-stage.is-curtain-up .math-companion-hand-cue,
+.math-companion-stage.is-edge-top .math-companion-hand-cue,
+.math-companion-stage.is-edge-bottom .math-companion-hand-cue,
+.math-companion-stage.is-rejoin-bottom .math-companion-hand-cue,
+.math-companion-stage.is-leap-down .math-companion-hand-cue { opacity: 0; }
+.math-companion-stage.is-leap-up .math-companion-curtain-handle,
+.math-companion-stage.is-drop-bottom .math-companion-curtain-handle {
+  animation: math-companion-handle-catch var(--companion-prep-duration, 460ms) ease-out both;
+}
+.math-companion-stage.is-curtain-down .math-companion-curtain-handle,
+.math-companion-stage.is-curtain-up .math-companion-curtain-handle,
+.math-companion-stage.is-edge-top .math-companion-curtain-handle,
+.math-companion-stage.is-edge-bottom .math-companion-curtain-handle { opacity: .58; }
+.math-companion-stage.is-rejoin-bottom .math-companion-curtain-handle,
+.math-companion-stage.is-leap-down .math-companion-curtain-handle {
+  animation: math-companion-handle-release var(--companion-return-duration, 680ms) ease-out both;
+}
+
+.math-companion-speed {
+  position: absolute;
+  top: 19px;
+  display: block;
+  max-width: 96px;
+  color: currentColor;
+  font-family: var(--sans);
+  font-size: 8px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .04em;
+  line-height: 1;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(2px);
+  transition: opacity 150ms ease, transform 180ms cubic-bezier(.2,.72,.2,1);
+}
+.math-companion-speed[data-side="right"] { left: calc(100% - 7px); }
+.math-companion-speed[data-side="left"] { right: calc(100% - 7px); text-align: right; }
+.math-companion-speed.is-visible {
+  opacity: .43;
+  transform: translateY(0);
+}
+
+.math-companion-trail-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.math-companion-trail-mark {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  margin-top: -4px;
+  color: currentColor;
+  font-family: var(--display);
+  font-size: 8px;
+  line-height: 1;
+  opacity: 0;
+  transform-origin: center;
+  will-change: transform, opacity;
+  animation: math-companion-trail var(--trail-duration, 400ms) cubic-bezier(.18,.7,.2,1) forwards;
+}
+.math-companion-trail-mark.is-brisk { font-size: 8.4px; }
+.math-companion-trail-mark.is-run { font-size: 9px; }
+.math-companion-trail-mark.is-sprint { font-size: 9.5px; }
+
+/* Clicking the figure still exposes the reusable math vocabulary, but as a secondary interaction. */
+.math-companion-stage.is-summoning .math-companion-body {
+  animation: math-companion-summon-body 760ms cubic-bezier(.2,.8,.2,1) both;
+}
+.math-companion-stage.is-summoning .math-companion-arm-right {
+  animation: math-companion-summon-arm 760ms cubic-bezier(.2,.8,.2,1) both;
+}
+.math-companion-stage.is-summoning .math-companion-arm-left {
+  animation: math-companion-summon-left 760ms cubic-bezier(.2,.8,.2,1) both;
+}
+
+.math-companion-stage.is-thinking .math-companion-body {
+  animation: math-companion-think 820ms ease-in-out both;
+}
+.math-companion-stage.is-thinking .math-companion-arm-left {
+  animation: math-companion-think-arm 820ms ease-in-out both;
+}
+.math-companion-stage.is-correct .math-companion-body {
+  animation: math-companion-correct 940ms cubic-bezier(.2,.82,.2,1) both;
+}
+.math-companion-stage.is-correct .math-companion-arm-left {
+  animation: math-companion-correct-arm-left 940ms cubic-bezier(.2,.82,.2,1) both;
+}
+.math-companion-stage.is-correct .math-companion-arm-right {
+  animation: math-companion-correct-arm-right 940ms cubic-bezier(.2,.82,.2,1) both;
+}
+.math-companion-stage.is-wrong .math-companion-body {
+  animation: math-companion-wrong 720ms ease-out both;
+}
+.math-companion-stage.is-wrong .math-companion-head-wrap {
+  animation: math-companion-wrong-head 720ms ease-out both;
+}
+
+/* π is the companion's route door. It spawns from the figure's live position
+   and facing direction, never from a fixed navigation coordinate. */
+.math-companion-portal {
+  --portal-half-w: 78px;
+  --portal-half-h: 106.5px;
+  --portal-glyph-floor-offset: 52px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  width: 156px;
+  height: 213px;
+  pointer-events: none;
+  color: currentColor;
+  transform: translate3d(calc(var(--portal-x) - var(--portal-half-w)), calc(var(--portal-y) - var(--portal-half-h)), 0) scale(.72);
+  transform-origin: 50% 76%;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.math-companion-portal-symbol {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--display);
+  font-size: 183px;
+  font-weight: 400;
+  line-height: .82;
+  letter-spacing: -.08em;
+  transform: translateY(var(--portal-glyph-floor-offset));
+}
+.math-companion-portal-slit {
+  position: absolute;
+  left: 50%;
+  bottom: 25.5px;
+  width: 1px;
+  height: 115.5px;
+  background: currentColor;
+  opacity: .18;
+  transform: translateX(-50%) scaleY(.2);
+  transform-origin: bottom;
+}
+.math-companion-portal.is-opening,
+.math-companion-portal.is-open { animation: math-companion-portal-open 260ms cubic-bezier(.18,.78,.18,1) both; }
+.math-companion-portal.is-traversed { opacity: .72; transform: translate3d(calc(var(--portal-x) - var(--portal-half-w)), calc(var(--portal-y) - var(--portal-half-h)), 0) scale(1); }
+.math-companion-portal.is-closing { animation: math-companion-portal-close 220ms cubic-bezier(.4,0,.3,1) both; }
+.math-companion-portal.is-open .math-companion-portal-slit,
+.math-companion-portal.is-traversed .math-companion-portal-slit { animation: math-companion-portal-slit 260ms ease-out both; }
+
+.math-companion-stage.is-portal-open .math-companion-body { animation: math-companion-portal-notice 220ms ease-out both; }
+.math-companion-stage.is-portal-enter .math-companion-figure { animation: math-companion-portal-enter-figure 470ms cubic-bezier(.32,.02,.3,1) both; }
+.math-companion-stage.is-portal-exit .math-companion-figure { animation: math-companion-portal-exit-figure 430ms cubic-bezier(.16,.78,.18,1) both; }
+.math-companion-stage.is-portal-enter .math-companion-arm-left,
+.math-companion-stage.is-portal-exit .math-companion-arm-left { animation: math-companion-portal-arm-left 430ms ease-in-out infinite alternate; }
+.math-companion-stage.is-portal-enter .math-companion-arm-right,
+.math-companion-stage.is-portal-exit .math-companion-arm-right { animation: math-companion-portal-arm-right 430ms ease-in-out infinite alternate; }
+.math-companion-stage.is-portal-enter .math-companion-leg-left,
+.math-companion-stage.is-portal-exit .math-companion-leg-left { animation: math-companion-portal-leg-left 430ms linear infinite; }
+.math-companion-stage.is-portal-enter .math-companion-leg-right,
+.math-companion-stage.is-portal-exit .math-companion-leg-right { animation: math-companion-portal-leg-right 430ms linear infinite; }
+
+.math-companion-spawn-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.math-companion-spawn {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 28px;
+  height: 28px;
+  margin-left: -14px;
+  margin-top: -14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 21px;
+  line-height: 1;
+  opacity: 0;
+  transform: translate3d(var(--spawn-from-x), var(--spawn-from-y), 0) rotate(0deg) scale(.72);
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+.math-companion-spawn svg {
+  width: 25px;
+  height: 25px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.35;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  overflow: visible;
+}
+.math-companion-spawn--text { font-weight: 400; }
+.math-companion-spawn.is-local {
+  animation: math-companion-spawn-local var(--spawn-duration) cubic-bezier(.18,.72,.2,1) forwards;
+}
+.math-companion-spawn.is-projectile {
+  animation: math-companion-spawn-projectile var(--spawn-duration) linear forwards;
+}
+
+.math-companion-ui-hit {
+  animation: math-companion-ui-hit 430ms ease-out !important;
+}
+
+@keyframes math-companion-enter {
+  0% { opacity: 0; transform: translateY(7px) scaleX(var(--companion-facing)); }
+  58% { opacity: 1; transform: translateY(-1px) scaleX(var(--companion-facing)); }
+  100% { opacity: 1; transform: translateY(0) scaleX(var(--companion-facing)); }
+}
+
+@keyframes math-companion-point-body {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  18% { transform: translateY(1px) rotate(1deg); }
+  38% { transform: translateY(2px) rotate(-3deg); }
+  62% { transform: translateY(-1px) rotate(-2deg); }
+  82% { transform: translateY(0) rotate(-1deg); }
+}
+@keyframes math-companion-point-arm {
+  0%, 100% { transform: rotate(0deg); }
+  16% { transform: rotate(9deg); }
+  38% { transform: rotate(-28deg); }
+  54%, 70% { transform: rotate(-66deg); }
+  84% { transform: rotate(-24deg); }
+}
+@keyframes math-companion-point-counter {
+  0%, 100% { transform: rotate(0deg); }
+  34%, 70% { transform: rotate(13deg); }
+}
+
+@keyframes math-companion-handle-catch {
+  0%, 66% { opacity: 0; }
+  84%, 100% { opacity: .58; }
+}
+@keyframes math-companion-handle-release {
+  0% { opacity: .58; }
+  28%, 100% { opacity: 0; }
+}
+
+@keyframes math-companion-leap-up-body {
+  0% { transform: translateY(0) rotate(0deg); }
+  12% { transform: translateY(4px) rotate(-3deg); }
+  24% { transform: translateY(-2px) rotate(3deg); }
+  58% { transform: translateY(-5px) rotate(2deg); }
+  82% { transform: translateY(-2px) rotate(-1deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+@keyframes math-companion-leap-up-arm-left {
+  0% { transform: rotate(0deg); }
+  18% { transform: rotate(-12deg); }
+  52%, 86% { transform: rotate(74deg); }
+  100% { transform: rotate(50deg); }
+}
+@keyframes math-companion-leap-up-arm-right {
+  0% { transform: rotate(0deg); }
+  18% { transform: rotate(12deg); }
+  52%, 86% { transform: rotate(-74deg); }
+  100% { transform: rotate(-50deg); }
+}
+@keyframes math-companion-leap-up-leg-left {
+  0% { transform: rotate(0deg); }
+  14% { transform: rotate(24deg); }
+  48% { transform: rotate(-23deg); }
+  72% { transform: rotate(12deg); }
+  100% { transform: rotate(0deg); }
+}
+@keyframes math-companion-leap-up-leg-right {
+  0% { transform: rotate(0deg); }
+  14% { transform: rotate(-22deg); }
+  48% { transform: rotate(20deg); }
+  72% { transform: rotate(-10deg); }
+  100% { transform: rotate(0deg); }
+}
+@keyframes math-companion-drop-body {
+  0% { transform: translateY(0) rotate(0deg); }
+  48% { transform: translateY(-2px) rotate(1.5deg); }
+  82% { transform: translateY(3px) rotate(-2deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+@keyframes math-companion-grab-low-arm-left {
+  0% { transform: rotate(0deg); }
+  46% { transform: rotate(20deg); }
+  78%, 100% { transform: rotate(50deg); }
+}
+@keyframes math-companion-grab-low-arm-right {
+  0% { transform: rotate(0deg); }
+  46% { transform: rotate(-20deg); }
+  78%, 100% { transform: rotate(-50deg); }
+}
+@keyframes math-companion-drop-leg-left {
+  0%, 32% { transform: rotate(0deg); }
+  62% { transform: rotate(13deg); }
+  86% { transform: rotate(-7deg); }
+  100% { transform: rotate(0deg); }
+}
+@keyframes math-companion-drop-leg-right {
+  0%, 32% { transform: rotate(0deg); }
+  62% { transform: rotate(-13deg); }
+  86% { transform: rotate(7deg); }
+  100% { transform: rotate(0deg); }
+}
+@keyframes math-companion-soft-land {
+  0% { transform: translateY(1px) rotate(-1deg); }
+  42% { transform: translateY(3px) rotate(-1deg); }
+  72% { transform: translateY(-1px) rotate(.5deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+@keyframes math-companion-leap-down-body {
+  0% { transform: translateY(1px) rotate(-1deg); }
+  28% { transform: translateY(-2px) rotate(1.8deg); }
+  68% { transform: translateY(1px) rotate(-1.8deg); }
+  86% { transform: translateY(5px) rotate(-2.5deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+@keyframes math-companion-leap-down-leg-left {
+  0% { transform: rotate(4deg); }
+  34% { transform: rotate(17deg); }
+  70% { transform: rotate(-11deg); }
+  88% { transform: rotate(13deg); }
+  100% { transform: rotate(0deg); }
+}
+@keyframes math-companion-leap-down-leg-right {
+  0% { transform: rotate(-4deg); }
+  34% { transform: rotate(-17deg); }
+  70% { transform: rotate(11deg); }
+  88% { transform: rotate(-13deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes math-companion-release-arm-left {
+  0% { transform: rotate(38deg); }
+  36% { transform: rotate(18deg); }
+  72%, 100% { transform: rotate(0deg); }
+}
+@keyframes math-companion-release-arm-right {
+  0% { transform: rotate(-38deg); }
+  36% { transform: rotate(-18deg); }
+  72%, 100% { transform: rotate(0deg); }
+}
+
+@keyframes math-companion-curtain-body {
+  0% { transform: translateY(0) rotate(0deg); }
+  10% { transform: translateY(2px) rotate(-2deg); }
+  17% { transform: translateY(-2px) rotate(2.4deg); }
+  34% { transform: translateY(1px) rotate(-2deg); }
+  48% { transform: translateY(-1px) rotate(1.6deg); }
+  61% { transform: translateY(1px) rotate(-1deg); }
+  76%, 100% { transform: translateY(1px) rotate(-1deg); }
+}
+@keyframes math-companion-curtain-arm-left {
+  0% { transform: rotate(50deg); }
+  12%, 58% { transform: rotate(78deg); }
+  68% { transform: rotate(58deg); }
+  82%, 100% { transform: rotate(38deg); }
+}
+@keyframes math-companion-curtain-arm-right {
+  0% { transform: rotate(-50deg); }
+  12%, 58% { transform: rotate(-78deg); }
+  68% { transform: rotate(-58deg); }
+  82%, 100% { transform: rotate(-38deg); }
+}
+@keyframes math-companion-curtain-leg-left {
+  0% { transform: rotate(0deg); }
+  18% { transform: rotate(12deg); }
+  34% { transform: rotate(-9deg); }
+  50% { transform: rotate(11deg); }
+  62% { transform: rotate(-6deg); }
+  80% { transform: rotate(4deg); }
+  100% { transform: rotate(0deg); }
+}
+@keyframes math-companion-curtain-leg-right {
+  0% { transform: rotate(0deg); }
+  18% { transform: rotate(-12deg); }
+  34% { transform: rotate(9deg); }
+  50% { transform: rotate(-11deg); }
+  62% { transform: rotate(6deg); }
+  80% { transform: rotate(-4deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes math-companion-summon-body {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  18% { transform: translateY(1px) rotate(-1deg); }
+  36% { transform: translateY(3px) rotate(-5deg); }
+  56% { transform: translateY(-2px) rotate(3deg); }
+  78% { transform: translateY(-1px) rotate(1deg); }
+}
+@keyframes math-companion-summon-arm {
+  0%, 100% { transform: rotate(0deg); }
+  18% { transform: rotate(12deg); }
+  42% { transform: rotate(-42deg); }
+  58%, 70% { transform: rotate(-76deg); }
+  86% { transform: rotate(-22deg); }
+}
+@keyframes math-companion-summon-left {
+  0%, 100% { transform: rotate(0deg); }
+  36%, 68% { transform: rotate(25deg); }
+}
+@keyframes math-companion-think {
+  0%, 100% { transform: rotate(0deg); }
+  24% { transform: rotate(-1deg) translateY(0); }
+  45%, 72% { transform: rotate(-4deg) translateY(1px); }
+  88% { transform: rotate(-1deg) translateY(0); }
+}
+@keyframes math-companion-think-arm {
+  0%, 100% { transform: rotate(0deg); }
+  28% { transform: rotate(22deg); }
+  48%, 72% { transform: rotate(56deg); }
+  88% { transform: rotate(18deg); }
+}
+@keyframes math-companion-correct {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  20% { transform: translateY(2px) rotate(-1deg); }
+  34% { transform: translateY(4px) rotate(-2deg); }
+  55% { transform: translateY(-7px) rotate(1deg); }
+  72% { transform: translateY(-3px) rotate(0); }
+  86% { transform: translateY(-1px) rotate(0); }
+}
+@keyframes math-companion-correct-arm-left {
+  0%, 100% { transform: rotate(0deg); }
+  26% { transform: rotate(24deg); }
+  44%, 70% { transform: rotate(102deg); }
+  86% { transform: rotate(26deg); }
+}
+@keyframes math-companion-correct-arm-right {
+  0%, 100% { transform: rotate(0deg); }
+  26% { transform: rotate(-24deg); }
+  44%, 70% { transform: rotate(-103deg); }
+  86% { transform: rotate(-26deg); }
+}
+@keyframes math-companion-wrong {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  18% { transform: translateX(-1px) rotate(-1deg); }
+  32% { transform: translateX(-2px) rotate(-3deg); }
+  50% { transform: translateX(2px) rotate(3deg); }
+  68% { transform: translateX(-1px) rotate(-2deg); }
+  86% { transform: translateX(.5px) rotate(.7deg); }
+}
+@keyframes math-companion-wrong-head {
+  0%, 100% { transform: translate(var(--companion-look-x), var(--companion-look-y)) rotate(0deg); }
+  28% { transform: translate(var(--companion-look-x), var(--companion-look-y)) rotate(4deg); }
+  50%, 70% { transform: translate(var(--companion-look-x), var(--companion-look-y)) rotate(-9deg); }
+  88% { transform: translate(var(--companion-look-x), var(--companion-look-y)) rotate(-2deg); }
+}
+
+@keyframes math-companion-meditate-breathe {
+  0%, 100% { transform: translateY(19px) rotate(0deg); }
+  50% { transform: translateY(18.2px) rotate(.25deg); }
+}
+@keyframes math-companion-stand-body {
+  0% { transform: translateY(19px) rotate(0deg); }
+  42% { transform: translateY(21px) rotate(-1deg); }
+  76% { transform: translateY(4px) rotate(.6deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+@keyframes math-companion-stand-arm-left { 0% { transform: rotate(43deg); } 100% { transform: rotate(0deg); } }
+@keyframes math-companion-stand-arm-right { 0% { transform: rotate(-43deg); } 100% { transform: rotate(0deg); } }
+@keyframes math-companion-stand-leg-left { 0% { transform: rotate(58deg); } 100% { transform: rotate(0deg); } }
+@keyframes math-companion-stand-leg-right { 0% { transform: rotate(-58deg); } 100% { transform: rotate(0deg); } }
+@keyframes math-companion-stand-shin-left { 0% { transform: rotate(-77deg); } 100% { transform: rotate(0deg); } }
+@keyframes math-companion-stand-shin-right { 0% { transform: rotate(77deg); } 100% { transform: rotate(0deg); } }
+
+@keyframes math-companion-portal-open {
+  0% { opacity: 0; transform: translate3d(calc(var(--portal-x) - var(--portal-half-w)), calc(var(--portal-y) - var(--portal-half-h)), 0) scale(.55,.16); }
+  62% { opacity: .74; transform: translate3d(calc(var(--portal-x) - var(--portal-half-w)), calc(var(--portal-y) - var(--portal-half-h)), 0) scale(1.04,1.03); }
+  100% { opacity: .7; transform: translate3d(calc(var(--portal-x) - var(--portal-half-w)), calc(var(--portal-y) - var(--portal-half-h)), 0) scale(1); }
+}
+@keyframes math-companion-portal-close {
+  0% { opacity: .7; transform: translate3d(calc(var(--portal-x) - var(--portal-half-w)), calc(var(--portal-y) - var(--portal-half-h)), 0) scale(1); }
+  100% { opacity: 0; transform: translate3d(calc(var(--portal-x) - var(--portal-half-w)), calc(var(--portal-y) - var(--portal-half-h)), 0) scale(.56,.12); }
+}
+@keyframes math-companion-portal-slit { 0% { opacity: 0; transform: translateX(-50%) scaleY(.2); } 100% { opacity: .18; transform: translateX(-50%) scaleY(1); } }
+@keyframes math-companion-portal-notice { 0% { transform: translateY(0) rotate(0); } 55% { transform: translateY(1px) rotate(-2deg); } 100% { transform: translateY(0) rotate(0); } }
+@keyframes math-companion-portal-enter-figure { 0% { opacity: 1; filter: blur(0); } 68% { opacity: .78; } 100% { opacity: 0; filter: blur(.7px); } }
+@keyframes math-companion-portal-exit-figure { 0% { opacity: 0; filter: blur(.7px); } 28% { opacity: .72; } 100% { opacity: 1; filter: blur(0); } }
+@keyframes math-companion-portal-arm-left { from { transform: rotate(26deg); } to { transform: rotate(-26deg); } }
+@keyframes math-companion-portal-arm-right { from { transform: rotate(-26deg); } to { transform: rotate(26deg); } }
+@keyframes math-companion-portal-leg-left { 0%,100% { transform: rotate(25deg); } 50% { transform: rotate(-24deg); } }
+@keyframes math-companion-portal-leg-right { 0%,100% { transform: rotate(-24deg); } 50% { transform: rotate(25deg); } }
+
+@keyframes math-companion-trail {
+  0% {
+    opacity: 0;
+    transform: translate3d(var(--trail-x), var(--trail-y), 0) rotate(var(--trail-rotate)) scale(.72);
+  }
+  18% { opacity: .34; }
+  58% {
+    opacity: .22;
+    transform: translate3d(var(--trail-x), calc(var(--trail-y) - 4px), 0) rotate(calc(var(--trail-rotate) + 8deg)) scale(.92);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--trail-x), calc(var(--trail-y) - 8px), 0) rotate(calc(var(--trail-rotate) + 14deg)) scale(.72);
+  }
+}
+
+@keyframes math-companion-spawn-local {
+  0% {
+    opacity: 0;
+    transform: translate3d(var(--spawn-from-x), var(--spawn-from-y), 0) rotate(0deg) scale(.58);
+  }
+  15% { opacity: 1; }
+  30% {
+    transform: translate3d(var(--spawn-q1-x), var(--spawn-q1-y), 0) rotate(var(--spawn-quarter-rotate)) scale(.88);
+  }
+  56% {
+    opacity: .96;
+    transform: translate3d(var(--spawn-mid-x), var(--spawn-mid-y), 0) rotate(var(--spawn-mid-rotate)) scale(1.02);
+  }
+  78% {
+    transform: translate3d(var(--spawn-q3-x), var(--spawn-q3-y), 0) rotate(var(--spawn-three-quarter-rotate)) scale(.98);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--spawn-to-x), var(--spawn-to-y), 0) rotate(var(--spawn-rotate)) scale(.86);
+  }
+}
+
+@keyframes math-companion-spawn-projectile {
+  0% {
+    opacity: 0;
+    transform: translate3d(var(--spawn-from-x), var(--spawn-from-y), 0) rotate(0deg) scale(.68);
+  }
+  6% { opacity: 1; }
+  25% {
+    opacity: 1;
+    transform: translate3d(var(--spawn-q1-x), var(--spawn-q1-y), 0) rotate(var(--spawn-quarter-rotate)) scale(.92);
+  }
+  50% {
+    opacity: 1;
+    transform: translate3d(var(--spawn-mid-x), var(--spawn-mid-y), 0) rotate(var(--spawn-mid-rotate)) scale(1);
+  }
+  75% {
+    opacity: 1;
+    transform: translate3d(var(--spawn-q3-x), var(--spawn-q3-y), 0) rotate(var(--spawn-three-quarter-rotate)) scale(.94);
+  }
+  94% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--spawn-to-x), var(--spawn-to-y), 0) rotate(var(--spawn-rotate)) scale(.62);
+  }
+}
+
+@keyframes math-companion-ui-hit {
+  0% { outline: 1px solid transparent; outline-offset: 0; }
+  30% { outline: 1px solid var(--line-strong); outline-offset: 2px; }
+  58% { outline: 1px solid var(--line-strong); outline-offset: 4px; }
+  100% { outline: 1px solid transparent; outline-offset: 7px; }
+}
+
+@media (max-width: 720px) {
+  .math-companion-stage {
+    width: 62px;
+    height: 82px;
+    opacity: .92;
+  }
+  .math-companion-portal {
+    --portal-half-w: 57px;
+    --portal-half-h: 75px;
+    --portal-glyph-floor-offset: 35px;
+    width: 114px;
+    height: 150px;
+  }
+  .math-companion-portal-symbol { font-size: 129px; }
+  .math-companion-portal-slit { height: 81px; bottom: 18px; }
+  .math-companion-spawn {
+    font-size: 18px;
+    width: 24px;
+    height: 24px;
+    margin-left: -12px;
+    margin-top: -12px;
+  }
+  .math-companion-spawn svg { width: 21px; height: 21px; }
+  .math-companion-speed { top: 14px; font-size: 7px; }
+  .math-companion-trail-mark { font-size: 7px; }
+  .math-companion-trail-mark.is-brisk { font-size: 7.4px; }
+  .math-companion-trail-mark.is-run { font-size: 8px; }
+  .math-companion-trail-mark.is-sprint { font-size: 8.4px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-curtain-layer { display: none; }
+  .math-companion-layer .math-companion-stage { opacity: 1; }
+  .math-companion-layer *,
+  .math-companion-layer *::before,
+  .math-companion-layer *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .math-companion-spawn-layer,
+  .math-companion-portal,
+  .math-companion-trail-layer,
+  .math-companion-speed { display: none; }
+  .math-companion-hand-cue { display: none; }
 }

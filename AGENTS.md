@@ -130,3 +130,38 @@ Do not alternate between `Projects`, `Portfolio`, `Case Studies`, and `Work` for
 - `Quick questions` on About is a small inline disclosure interaction. Answers are prewritten, one at a time, and remain on the page; do not convert them to modals.
 - Mental Math result copy may be personal (`Okay, you got me`, `I had this one`) but must remain restrained and never gamified.
 - Stacked fractions must align with the surrounding equation line. Do not reintroduce negative vertical alignment that makes the fraction appear to fall below the expression.
+
+## Math animation phase 2 — interactive math companion
+
+- The stick figure is now a site-aware companion rather than a decorative Mental Math illustration. It may remain visible across public routes, pace while the visitor scrolls, follow pointer direction subtly, react to real controls, and respond to Mental Math state. This is the one explicit exception to the portfolio's otherwise restrained motion rules.
+- The companion must react to user behavior for a reason. Avoid ambient symbol clouds, random perpetual movement, or decorative animation with no relationship to scroll, pointer, clicks, navigation, theme changes, or Mental Math.
+- Math is the companion's interaction language. It can create and throw reusable operators and geometric figures such as `+`, `−`, `×`, `÷`, `=`, `√`, `π`, circles, triangles, squares, angles, and vectors. Keep the vocabulary monochrome and geometry-led.
+- Clicking/tapping the figure may deliberately spawn one math object. Never turn this into a game HUD, inventory, score, speech system, chatbot, or mascot panel.
+- UI reactions should not hijack controls. Theme switching, forms, and ordinary controls remain immediately usable. Internal navigation has one deliberate exception in Phase 3: when the companion is free, route commit may wait only for the short π-entry beat so the character can visibly cross pages; if another high-priority choreography is active, navigation proceeds immediately.
+- Keep the character small and mostly in unused edge whitespace. It must not cover important content or create page-level horizontal overflow, especially on 320–430 px screens.
+- Mental Math remains the strongest semantic relationship: starting/checking a problem and correct/wrong results may trigger stronger reactions than ordinary page controls.
+- Keep the implementation dependency-free unless a later phase explicitly justifies an animation library.
+- Do not add speech bubbles, dialogue chrome, mascot labels, gradients, color, or game HUD elements. Sound is allowed only as a very subtle user-initiated physical cue (currently the curtain swish and tiny landing tap); never add autoplay ambience, music, cartoon effects, or persistent audio. The only particle-like exception is the intentionally tiny movement-only math foot trail defined below. The page cursor itself is never replaced.
+- Respect `prefers-reduced-motion`: the companion becomes a quiet static figure and does not spawn animated objects.
+
+## Math companion Phase 2 motion rules
+
+- The companion's **horizontal position** maps left-to-right to scroll progress on the current route, but there is no visible floor/progress line. Do not restore the track unless explicitly requested.
+- Locomotion should chase a target smoothly. Walking must read as stepping rather than a translated sprite: use a planted-step stance/swing cycle where the contact foot visually counters body travel, plus knee articulation, foot counter-rotation, and believable acceleration/deceleration.
+- A tiny movement-only math trail is allowed at foot contact, capped to a few faint marks that disappear within a fraction of a second. A tiny unboxed `v = … u/s` readout may appear only while walking/running. Both must disappear at rest and must never become a persistent HUD, particle field, glow, or progress indicator.
+- Keep the character visually secondary. The current baseline is deliberately smaller than the earlier Phase 2 figure; do not enlarge it casually or place it over primary reading areas.
+- UI choreography should include anticipation, follow-through, rest, and recovery when visible enough to matter. Avoid obvious two-pose jumps.
+- Theme switching no longer uses a thrown math object. The companion itself operates the shutter: dark closes top-to-bottom and leaves the figure briefly at the bottom; light opens bottom-to-top and leaves it briefly at the top.
+- The theme shutter is a **background transition**. Site content remains above/readable during the wipe, and the effect must stay `pointer-events: none` so browsing continues normally.
+- Scroll target updates continue while the companion is performing the shutter action; after the short edge rest it returns to the latest scroll position rather than an obsolete one. Keep the live stage Y separate from the normal track target Y so scroll/resize updates cannot teleport the figure mid-curtain. Prep, pull, edge hold, and rejoin must continue from the exact previous coordinate, with real leap/drop/landing motion instead of stage-transform snaps.
+
+
+## Math companion Phase 3 — resident behavior, gait states, sound, and π portal
+
+- Long inactivity now resolves into a quiet cross-legged seated idle pose after a shorter standing-rest phase. The pose is abstract/geometric, not a literal religious figure. Before locomotion or a visible interaction resumes, the companion must stand up through a real transition rather than snapping upright.
+- Locomotion is speed-aware: idle → walk → brisk walk → run → sprint. Use hysteresis around thresholds so the gait cannot flicker rapidly between states. Faster states must change stride length, knee lift, arm swing, body lean, and cadence rather than merely speeding up the same walk cycle.
+- Keep the existing velocity annotation and tiny math foot trail tied to actual movement. They remain ephemeral and disappear at rest.
+- Theme audio is intentionally tiny and only becomes available after the user's theme-button gesture unlocks Web Audio. The shutter gets a low-volume fabric-like swish and edge/rejoin landings may get a soft tap. No sound UI, music, ambience, or autoplay.
+- Internal route navigation may use a π portal. The portal always spawns from the companion's live current position and **pre-click facing direction**, never from a fixed page/nav coordinate and never by turning toward the clicked control first. The figure enters before the route commits, exits through the same local portal on the destination, then rejoins the new route's scroll target.
+- The π portal is monochrome, typographic/geometric, short-lived, pointer-transparent, and belongs to the companion layer. It must not become a full-screen transition or block the site. External links do not use it.
+- Theme choreography has higher priority than portal choreography; if the companion is already operating the shutter, navigation must continue immediately rather than interrupting the shutter with a portal.

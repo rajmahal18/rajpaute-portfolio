@@ -57,9 +57,9 @@ No semantic colors. No colored status badges. No gradients. Dark mode is the sam
 
 ## Motion
 
-- Motion is limited to tiny arrow movement and nearly imperceptible image scale changes
-- No scroll-triggered entrances, parallax, cursor effects, 3D tilts, or perpetual animation
-- Respect `prefers-reduced-motion`
+- Outside the explicit interactive math companion exception below, motion is limited to tiny arrow movement and nearly imperceptible image scale changes.
+- Do not add scroll-triggered entrances, parallax, cursor effects, 3D tilts, or perpetual animation to ordinary portfolio content.
+- Respect `prefers-reduced-motion`.
 
 ## Navigation
 
@@ -127,3 +127,29 @@ Mental Math is the most conversational surface. Before an attempt it can challen
 ## Inline fraction alignment
 
 Stacked fractions must sit visually inside the same equation line. Keep them compact, raise them slightly relative to the text baseline, and avoid negative vertical offsets. The fraction bar and numerator/denominator should not force the surrounding equation to look like multiple separate lines.
+
+## Interactive math companion motion exception
+
+The portfolio has one deliberate motion exception: a small monochrome stick figure that behaves like a math-aware resident of the interface. The companion can stay present across public routes, pace inside the viewport while the visitor scrolls, track pointer direction subtly, react to real button presses, and create/throw small operators or geometric figures. Mental Math still provides its strongest state-driven reactions.
+
+The companion does not justify animating the rest of the interface. Work cards, case studies, About, Contact, typography, and navigation keep their existing restrained motion language. The figure should live mostly in edge whitespace and react only when there is a reason; no ambient symbol clouds, random particles, or constant spectacle. UI reactions never delay ordinary button behavior. Internal navigation has one narrow Phase 3 exception: when the companion is free, route commit waits only for the short π-entry beat; reduced-motion navigation stays immediate. Reduced-motion users receive a static non-spawning figure.
+
+## Math companion motion baseline
+
+The companion's horizontal location itself communicates page progress. There is no visible track/floor line; removing that extra graphic keeps the portfolio calmer and prevents the companion system from competing with navigation or typography. The figure may lag behind target progress briefly so walking/running has physical meaning, but it should settle to the correct horizontal position.
+
+The character is intentionally small and secondary. Its movement can be expressive, but its footprint should remain in edge whitespace whenever possible. Locomotion uses a distance-calibrated planted-step gait: the stance foot travels backward against the figure's forward motion, the swing leg recovers faster, knees articulate, and feet counter-rotate. This is specifically meant to prevent the figure from reading like a sliding sprite.
+
+A tiny math-motion residue is allowed only while the figure is actually moving: no more than a few short-lived marks such as `·`, `+`, `×`, `π`, `∠`, or `−` may appear at foot contact and fade almost immediately. A small unboxed velocity annotation (`v = … u/s`) may appear beside the figure while walking/running and must disappear at rest. These are movement feedback, not a permanent HUD, particle system, progress meter, or decorative symbol cloud.
+
+Theme choreography is intentionally physical and non-blocking. The companion operates the shutter itself rather than throwing a projectile at the theme button. Dark mode closes downward with the figure traveling to/resting at the bottom edge; light mode opens upward with the figure traveling to/resting at the top edge. The moving shutter sits behind foreground content, which stays readable while the background changes. Every vertical phase must continue from the figure's actual last Y coordinate; scroll/resize target updates must never overwrite the live action coordinate. Reaching/leaving an edge uses a real eased leap/drop/landing sequence rather than a CSS snap. Never replace this with an overlay that hides the page, an abrupt palette swap, a generic crossfade, gradients, or an interaction that blocks scrolling.
+
+## Math companion Phase 3 behavior
+
+Long inactivity should resolve into a quiet seated cross-legged pose rather than perpetual standing animation. The pose remains an abstract stick-figure construction; it should not depict or reference a literal religious figure. Waking is physical: stand first, then act.
+
+Locomotion is speed-aware. Preserve distinct walk, brisk-walk, run, and sprint mechanics with hysteresis so a threshold does not cause rapid gait flicker. Faster motion may strengthen stride, knee lift, arm swing, lean, trail cadence, and velocity readout activity, but must not increase the companion's visual footprint or turn the page into a game HUD.
+
+The theme shutter may use very subtle user-initiated physical audio: a quiet fabric-like swish and tiny landing taps. No autoplay, ambience, music, cartoon effects, or persistent sound layer.
+
+Internal navigation may use the companion's π portal. It is a local mathematical doorway, not a page transition overlay: spawn it in front of the figure from the figure's exact live position and pre-click facing direction, let the figure enter, commit the route while hidden inside, then let the same local portal release it on the destination. Keep π short-lived, monochrome, pointer-transparent, and secondary to the page. External links do not use it.

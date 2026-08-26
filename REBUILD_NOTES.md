@@ -102,3 +102,55 @@ See `AGENTS.md`, `DESIGN_SYSTEM.md`, and `PHASE_3.md` for the current design con
 - Rewrote Mental Math reaction copy to feel like a direct visitor-vs-Raj interaction while preserving the same factual timing/benchmark behavior.
 - Corrected stacked fraction vertical alignment so fractions stay visually on the same equation line.
 - Added explicit grouping parentheses to the reciprocal algebra question for readability.
+
+
+## Math animation phase 1
+
+- Added a dependency-free monochrome SVG stick figure beside/in the Mental Math section as the site's first deliberate living presence.
+- The scene draws itself in once, reacts locally to pointer position, and supports a short tap/click equation construction.
+- Mental Math state drives restrained character cues for active, correct, wrong, and interrupted attempts.
+- Wide desktop uses the intentional side whitespace; smaller screens fold the scene back into the section without page-level overflow.
+- Added a reduced-motion static mode and kept all animation logic scoped to Mental Math rather than generalizing motion across the portfolio.
+
+## Math animation phase 2
+
+- Replaced the Mental-Math-only decorative scene with a persistent `MathCompanion` mounted at the app shell level on public routes.
+- The companion now walks/paces in the viewport as the visitor scrolls and subtly follows global pointer direction with its head/body.
+- Real UI clicks now cue character reactions. Mental Math start/check/next controls have their own cues; ordinary buttons can trigger a short point/look response without delaying the actual control. Theme switching now uses the dedicated character-led shutter choreography described below.
+- Clicking/tapping the companion cycles through a baseline math-spawn vocabulary: operators plus circle, triangle, square, angle, and vector figures. Spawn count is capped and objects self-remove so the page cannot become a permanent symbol cloud.
+- Mental Math results now signal the global companion: correct and wrong answers trigger distinct poses plus `=` / `≠` math objects.
+- Added an idle/rest state so animation stops after user activity instead of looping forever.
+- Kept the implementation dependency-free and added a static non-spawning reduced-motion mode.
+- Removed the Phase 1 hard-coded `3 × 4 = 12` scene and its section-local floating visual noise.
+
+## Math companion Phase 2 polish — restrained scroll mapping + character-led shutter
+
+- Removed the visible full-width progress/floor line. The companion's horizontal position still maps to current-page scroll progress, but the coordinate system is now invisible so it does not steal attention.
+- Reduced the figure footprint substantially on desktop and mobile so it reads as a secondary living detail rather than a competing focal point.
+- Recalibrated locomotion around shorter distance-driven stride cycles and added knee/foot articulation to reduce the sliding impression.
+- Abandoned the theme shuriken/projectile interaction.
+- The companion now operates the theme shutter itself: for dark it reaches the top and pulls downward, rests briefly at the bottom, then returns; for light it reaches the bottom and pulls upward, rests briefly at the top, then returns.
+- Moved the shutter behind the foreground content. The app foreground stays readable through the black/white wipe instead of being covered by the transition layer.
+- Theme choreography remains fully non-blocking: curtain and companion layers do not intercept page interaction, and scroll targets continue updating while the sequence runs.
+- Reduced-motion behavior remains immediate/static.
+
+## Math companion motion polish — planted gait, math trail, and continuous curtain coordinates
+
+- Reworked the walking cycle around stance/swing phases so the planted foot visually counters horizontal body movement instead of both legs simply oscillating while the stage slides.
+- Added an intentionally tiny movement-only math trail at foot contacts. Marks are capped, faint, short-lived, and never remain after locomotion stops.
+- Added an unboxed velocity annotation (`v = … u/s`) driven by the companion's actual horizontal spring velocity; it appears only while walking/running and fades at rest.
+- Separated the normal track target Y from the live stage Y. Scroll/resize updates can continue during theme choreography without overwriting the character's current vertical position.
+- Removed CSS stage-transform curtain jumps. Theme prep, pull, edge hold, and rejoin now move the stage through one requestAnimationFrame coordinate path, so each phase starts exactly where the last phase ended.
+- Added proper leap/drop/landing body poses for edge travel and slowed the shutter from the earlier 620 ms wipe to a more deliberate 1000 ms pull, with a 700 ms preparation/reach window.
+- Theme remains fully non-blocking and the curtain remains behind foreground content.
+
+
+## Math companion Phase 3 — idle, gait states, sound, and π navigation
+
+- Added two-stage inactivity behavior: relaxed rest followed by a cross-legged seated idle pose; the figure now stands up before resuming movement or interaction.
+- Added velocity/progress-gap gait state switching with hysteresis: walk → brisk → run → sprint. Each gait has different stride/cadence/body mechanics rather than sharing one sped-up walk.
+- Kept the existing ephemeral velocity annotation and tiny math foot trail; faster gaits only increase their movement expression, not their screen persistence.
+- Added dependency-free synthesized Web Audio for theme choreography: a restrained curtain swish and quiet landing taps, unlocked only from the user's theme-button gesture. No files were added to `public/`.
+- Added a cancelable router intent hook so the persistent companion can animate internal navigation without coupling portals to specific pages or buttons.
+- Added a short-lived monochrome π portal that spawns from the companion's exact current viewport position and pre-click facing direction; navigation targets no longer rotate it before portal placement. Route commit occurs while the figure is inside; it exits from the same local portal and then rejoins the new page's scroll target.
+- Portal choreography yields to active theme choreography so navigation never blocks or corrupts the shutter sequence. Reduced-motion navigation stays immediate.

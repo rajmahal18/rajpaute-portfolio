@@ -1,6 +1,8 @@
 import React from "react";
 import SiteHeader from "./components/SiteHeader";
 import SiteFooter from "./components/SiteFooter";
+import MathCompanion from "./components/MathCompanion";
+import ThemeCurtain from "./components/ThemeCurtain";
 import HomePage from "./pages/HomePage";
 import WorkPage from "./pages/WorkPage";
 import ProjectPage from "./pages/ProjectPage";
@@ -15,7 +17,8 @@ import { useTheme } from "./hooks/useTheme";
 
 function RouteView() {
   const { path } = useRouter();
-  const { theme, toggleTheme } = useTheme();
+  const isPublicPortfolioRoute = path !== ownerMentalMathRoute;
+  const { theme, toggleTheme, transition, isThemeTransitioning } = useTheme({ animate: isPublicPortfolioRoute });
 
   let page = <NotFoundPage />;
 
@@ -32,11 +35,15 @@ function RouteView() {
   }
 
   return (
-    <div className="app-shell">
-      <SiteHeader theme={theme} toggleTheme={toggleTheme} />
-      {page}
-      <SiteFooter />
-    </div>
+    <>
+      <ThemeCurtain transition={transition} />
+      <div className={`app-shell ${transition ? "is-theme-transitioning" : ""}`}>
+        <SiteHeader theme={theme} toggleTheme={toggleTheme} themeBusy={isThemeTransitioning} />
+        {page}
+        {isPublicPortfolioRoute && <MathCompanion />}
+        <SiteFooter />
+      </div>
+    </>
   );
 }
 

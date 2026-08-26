@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { CalculatorIcon, RefreshIcon } from "./Icons";
 import SectionLabel from "./SectionLabel";
 import MathText from "./MathText";
+import { signalMathCompanion } from "../lib/mathCompanion";
 import {
   getMentalMathAnswerLabel,
   getMentalMathQuestionById,
@@ -122,6 +123,7 @@ export default function MentalMathChallenge() {
     setAnswer("");
     setSession((current) => ({ ...current, phase: "active", result: null }));
     startedAtRef.current = performance.now();
+    signalMathCompanion("mental-start", { questionId: question.id, category: question.category });
     window.requestAnimationFrame(() => inputRef.current?.focus());
   };
 
@@ -140,6 +142,11 @@ export default function MentalMathChallenge() {
       phase: "result",
       result: { correct, elapsedMs, numeric },
     }));
+    signalMathCompanion("mental-result", {
+      correct,
+      questionId: question.id,
+      category: question.category,
+    });
   };
 
   const another = () => {
@@ -156,6 +163,7 @@ export default function MentalMathChallenge() {
       };
     });
     startedAtRef.current = performance.now();
+    signalMathCompanion("mental-next");
     window.requestAnimationFrame(() => inputRef.current?.focus());
   };
 
@@ -168,10 +176,11 @@ export default function MentalMathChallenge() {
         <span className="mental-math-note">I do these for fun. No calculator.</span>
       </div>
 
+
       {session.phase === "idle" && (
         <div className="mental-math-idle">
           <p id="mental-math-title">Mental math, you vs me.</p>
-          <button type="button" className="mental-math-start" onClick={begin}>Give me one</button>
+          <button type="button" className="mental-math-start" data-math-action="mental-start" onClick={begin}>Give me one</button>
         </div>
       )}
 
@@ -196,14 +205,14 @@ export default function MentalMathChallenge() {
                 placeholder="Answer"
                 className="mental-math-input"
               />
-              <button type="submit" className="mental-math-check">Check</button>
+              <button type="submit" className="mental-math-check" data-math-action="mental-check">Check</button>
             </form>
           )}
 
           {session.phase === "interrupted" && (
             <div className="mental-math-result mental-math-result--interrupted">
               <p className="mental-math-result-note">You left mid-attempt, so I threw out the time.</p>
-              <button type="button" className="mental-math-another" onClick={another}>
+              <button type="button" className="mental-math-another" data-math-action="mental-next" onClick={another}>
                 <RefreshIcon size={14} /> Give me another
               </button>
             </div>
@@ -232,7 +241,7 @@ export default function MentalMathChallenge() {
                 </div>
               </div>
 
-              <button type="button" className="mental-math-another" onClick={another}>
+              <button type="button" className="mental-math-another" data-math-action="mental-next" onClick={another}>
                 <RefreshIcon size={14} /> Another one
               </button>
             </div>
