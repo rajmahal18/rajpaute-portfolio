@@ -153,3 +153,24 @@ Locomotion is speed-aware. Preserve distinct walk, brisk-walk, run, and sprint m
 The theme shutter may use very subtle user-initiated physical audio: a quiet fabric-like swish and tiny landing taps. No autoplay, ambience, music, cartoon effects, or persistent sound layer.
 
 Internal navigation may use the companion's π portal. It is a local mathematical doorway, not a page transition overlay: spawn it in front of the figure from the figure's exact live position and pre-click facing direction, let the figure enter, commit the route while hidden inside, then let the same local portal release it on the destination. Keep π short-lived, monochrome, pointer-transparent, and secondary to the page. External links do not use it.
+
+## Dual theme transition
+
+Theme switching may choose between two companion-led monochrome transitions when creating light from dark. Curtain mode keeps the physical shutter. Power mode keeps the figure in place and treats it as the light source: a restrained living gray flame-energy field builds, then white expands smoothly from the figure. The inverse light → dark transition must use the same source effect that created the current light state: curtain-created/default light closes with curtain; power-created light contracts back into the powered resident. Both effects sit behind readable site content, remain pointer-transparent, and preserve the calm editorial hierarchy. No colored aura, gradients, glow filters, particle clouds, or full-screen anime styling.
+
+## Resident polish guardrail
+
+The companion may be dragged directly only while it is free. Dragging is a temporary interaction override, not a new layout mode: release must settle back into the existing viewport-resident routine without teleporting. The existing π portal art is preserved at 1.25× scale; do not redesign it unless explicitly requested. Portal entry targets must be derived from the actual clamped portal position; at a viewport edge, turn toward the visible doorway rather than walking away from it, and commit navigation only after the body has crossed the door center. Persistent power is allowed only after dark → light via the power effect. Curtain-sourced/default light, every dark-mode result, and reset/reduced-motion paths must clear the powered state. Idle timing must remain route-independent and must not be reset by no-op layout observers.
+
+## Math companion articulation
+
+- Treat the companion as a small constructed line character, not an icon with rotating sticks. Arms have shoulder/elbow/wrist articulation; legs have hip/knee/ankle articulation; torso/head may counter-move subtly.
+- Render limbs with restrained curved paths and invisible control joints. No visible rig points, debug bones, thick anatomy, or cartoon rubber-limb styling.
+- Motion consistency outranks animation quantity: every authored pose should preserve the same proportions, joint origins, stroke language, and recovery behavior.
+- Locomotion joint motion is phase-linked and speed-aware. Foot contact should still read as planted even when the character runs or sprints.
+
+## Power + run polish
+
+The run silhouette should read immediately as locomotion: forward torso drive, opposite arm/leg rhythm, inward mirrored elbow flex, strong but controlled knee recovery, and planted/controlled feet. Avoid sideways straight arms, windmilling shoulders, or giant ankle compensation.
+
+The persistent powered stance is distinct from ordinary idle: wider base, flexed knees, compact bent arms, and a calm layered gray aura. The aura should feel like an energy field rather than illustrated fire. Theme light expansion must visibly originate at the companion and use continuous transform-based motion rather than stepped radial frames.

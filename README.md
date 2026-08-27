@@ -61,3 +61,7 @@ The About-page contribution calendar is fetched server-side through `functions/a
 - Expanded locomotion into speed-aware walk, brisk walk, run, and sprint states with hysteresis while preserving the real velocity readout and tiny math foot trail.
 - Added subtle user-initiated Web Audio for the physical theme shutter (swish + tiny landing taps) without adding public audio assets.
 - Added a persistent π route portal for internal navigation. It spawns from the companion's live current position and facing direction, carries the figure across the route change, then closes before the figure rejoins the destination scroll target.
+
+## Jointed companion foundation
+
+The persistent math companion now uses a lightweight custom articulated rig: independent shoulders/elbows/wrists and hips/knees/feet, restrained curved SVG limbs, subtle spine flex, and head counter-motion. Existing locomotion and authored states reuse the same body model so walk/run, seated idle, drag, jump, curtain, portal, Mental Math, and power-up poses stay visually consistent without adding an animation/physics dependency.

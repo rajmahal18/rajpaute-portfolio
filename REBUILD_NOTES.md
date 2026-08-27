@@ -154,3 +154,42 @@ See `AGENTS.md`, `DESIGN_SYSTEM.md`, and `PHASE_3.md` for the current design con
 - Added a cancelable router intent hook so the persistent companion can animate internal navigation without coupling portals to specific pages or buttons.
 - Added a short-lived monochrome π portal that spawns from the companion's exact current viewport position and pre-click facing direction; navigation targets no longer rotate it before portal placement. Route commit occurs while the figure is inside; it exits from the same local portal and then rejoins the new page's scroll target.
 - Portal choreography yields to active theme choreography so navigation never blocks or corrupts the shutter sequence. Reduced-motion navigation stays immediate.
+
+## Math animation Phase 4 — dual theme toggle
+
+- Added a random two-mode theme transition: the existing physical curtain or a new companion-powered light-source transition.
+- Power mode keeps the figure in place, builds a restrained gray energy aura, then expands white light from the figure for light mode or contracts the remaining light back into the figure for dark mode.
+- The radial theme layer remains behind foreground content and pointer-transparent, so browsing continues during the effect.
+- The radial origin follows the companion's live viewport position rather than any portfolio section or theme-button coordinate.
+- Kept curtain choreography/audio intact and added no new assets to `public/`.
+
+### Math companion — Son Goku polish pass
+- Enlarged the existing π portal exactly 1.25× without redesigning it; entry travel now continues slightly past the portal center before route commit.
+- Doubled the gray power aura footprint. Persistent power is valid only after dark → light via power; curtain-sourced light and every dark-mode result clear it explicitly.
+- Stabilized the idle timer across public routes so ResizeObserver/layout settling cannot repeatedly reset the seated-idle countdown.
+- Added direct pointer drag with subtle body/limb lag, capped release inertia, floor recovery, and automatic return to the existing scroll-follow routine.
+
+## Math animation Phase 5 — jointed stickman foundation
+
+- Rebuilt the visible stickman around one consistent articulated SVG hierarchy instead of mostly rigid single-segment arms/legs.
+- Added independent shoulder/elbow/wrist and hip/knee/foot transforms, restrained curved limb paths, subtle spine bend, and head counter-rotation.
+- Extended the distance-driven gait engine so elbow flex, knee lift, ankle counter-rotation, spine motion, and head stabilization share the same gait phase across walk, brisk walk, run, and sprint.
+- Retrofitted existing seated idle, rest, stand-up, dragging, jump/landing, curtain, portal, Mental Math reactions, and power-up poses to the same joint hierarchy.
+- Kept the implementation dependency-free and preserved all existing route/theme/portal semantics; this pass changes character articulation rather than adding another interaction feature.
+
+
+## Math animation Phase 5 polish — run, power, and portal continuity
+
+- Reworked run/sprint mechanics to remove the sideways-arm pose: mirrored inward elbow flex, stronger forward drive, higher knee recovery, and capped ankle compensation.
+- Replaced the cartoon flame-line aura with a layered gray energy field and added a distinct calm powered stance.
+- Power state now persists only after dark → light via power; curtain transitions and any dark result clear it.
+- Smoothed the Super Saiyan radial theme effect with GPU transform scaling from the companion's live coordinates so the figure reads as the source of light.
+- Corrected π entry travel to continue in the facing direction and moved route commit later so the character is fully through the doorway first.
+
+
+## Math companion continuity polish — portal + powered theme source
+
+- Fixed intermittent π entry misses, especially at the far-left/far-right viewport edges, by deriving travel direction and depth from the actual clamped portal coordinate and committing the route only after entry motion completes.
+- Paired theme transition semantics: the effect selected for dark → light is reused for light → dark. Curtain-created/default light never invokes power just to turn dark.
+- Power-to-dark keeps the current aura through the contraction and clears it only during recovery.
+- Reworked the gray aura into independently moving flame contours/rising energy strokes and changed the radial light wipe to grow from a body-scale source circle with subtle origin rings.

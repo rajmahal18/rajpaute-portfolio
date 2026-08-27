@@ -165,3 +165,35 @@ Do not alternate between `Projects`, `Portfolio`, `Case Studies`, and `Work` for
 - Internal route navigation may use a π portal. The portal always spawns from the companion's live current position and **pre-click facing direction**, never from a fixed page/nav coordinate and never by turning toward the clicked control first. The figure enters before the route commits, exits through the same local portal on the destination, then rejoins the new route's scroll target.
 - The π portal is monochrome, typographic/geometric, short-lived, pointer-transparent, and belongs to the companion layer. It must not become a full-screen transition or block the site. External links do not use it.
 - Theme choreography has higher priority than portal choreography; if the companion is already operating the shutter, navigation must continue immediately rather than interrupting the shutter with a portal.
+
+## Math companion Phase 4 — dual theme choreography
+
+- Theme toggle randomly selects one of two restrained effects: the existing companion-led curtain or a companion-powered radial light transition.
+- Power mode must use the companion's exact live viewport position as the source. Dark → light expands a white circle from the figure; light → dark contracts the remaining white circle back into the figure before settling dark.
+- Power mode uses only a restrained gray layered energy contour around the figure. Avoid literal flame tongues, yellow/color, glow filters, gradients, particle fields, large screen shake, or a long anime cutscene.
+- The radial layer stays behind portfolio content and `pointer-events: none`. Browsing/scrolling must remain usable throughout the transition.
+- Do not replace or degrade the existing curtain behavior. The two theme effects are alternatives, not a combined spectacle.
+
+## Companion resident polish
+
+- Preserve the current π portal design; it is intentionally 1.25× its previous size and entry motion moves slightly beyond its center.
+- Persistent power has one strict condition: it may remain only after a dark → light transition that used the power effect. Theme effects are paired by the source of the current light state: power-created light must contract through power, while curtain-created/default light must return to dark through curtain. Power must never appear only to switch off a light state that was not powered in the first place. Any dark-mode result and reduced-motion/reset paths clear persistent power.
+- The companion idle timer is global across public routes; do not let route/layout observer churn repeatedly restart it.
+- Pointer dragging temporarily overrides motion. On release, use physical recovery and return to scroll pursuit; never snap/teleport the figure back.
+
+## Math companion Phase 5 — jointed articulation
+
+- The companion uses one persistent articulated body model across locomotion and authored actions: shoulder → elbow → wrist, hip → knee → ankle/foot, plus subtle spine bend and head counter-motion.
+- Joints are internal control points only. Never expose joint dots, bone overlays, handles, or debug rig UI in production.
+- Keep limb curves slight and geometric. The goal is to remove ruler-straight stiffness without turning the figure into rubber-hose/cartoon anatomy.
+- Walk/brisk/run/sprint must drive all joint angles from the same distance-based gait phase. Faster movement changes stride, knee lift, elbow flex, torso lean, and head counter-motion; it must not simply speed up a single rigid walk loop.
+- Existing seated idle, stand-up, drag/recovery, jump/landing, curtain, π portal, Mental Math reactions, and power-up states should reuse this skeleton rather than introduce one-off replacement drawings.
+- Keep the rig dependency-free and deterministic unless a later phase explicitly justifies IK/physics.
+
+## Math companion Phase 5 polish — gait + power continuity
+
+- Running/sprinting use inward mirrored elbow flex, stronger forward torso drive, larger knee recovery, and controlled ankles so the character reads as running rather than sliding with a sideways arm.
+- The power aura is a layered gray flame-energy field with asynchronous contour and rising-streak motion, never a static pasted outline. Persistent power uses a distinct braced idle stance; the dark→light radial field must visibly originate at the resident’s live body position.
+- Power persistence is valid only after dark → light via the power transition; curtain light and every dark-mode outcome clear it.
+- The radial theme change uses a transform-scaled white source centered on the companion for smoother frame-to-frame motion and clearer light-source causality.
+- Portal entry depth is direction-relative and route commit happens only after the character has traveled past the π center.
