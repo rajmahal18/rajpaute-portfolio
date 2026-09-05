@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">RVerse Blueprint workspace preview</title>
+  <desc id="desc">A stylized preview of the RVerse Blueprint planning workspace with a dark navigation rail and a guided application setup dashboard.</desc>
+  <rect width="1600" height="900" fill="#f4f3ef"/>
+  <rect width="300" height="900" fill="#111317"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <rect x="34" y="36" width="46" height="46" rx="12" fill="#f5f2e9"/>
+    <path d="M47 48h20v20H47zM54 48v20M47 56h20" fill="none" stroke="#111317" stroke-width="2"/>
+    <text x="96" y="57" fill="#f6f5f1" font-size="21" font-weight="700">Blueprint</text>
+    <text x="96" y="77" fill="#858991" font-size="12">application specification workspace</text>
+
+    <text x="36" y="126" fill="#7f848d" font-size="11" letter-spacing="1.6">CURRENT PROJECT</text>
+    <rect x="34" y="141" width="232" height="59" rx="12" fill="none" stroke="#2b2e34"/>
+    <text x="51" y="176" fill="#f6f5f1" font-size="15" font-weight="700">Booking System</text>
+    <path d="M239 168l7 7 7-7" fill="none" stroke="#9ca0a8" stroke-width="1.5"/>
+
+    <g font-size="15">
+      <rect x="28" y="231" width="244" height="52" rx="11" fill="#1d2025"/>
+      <circle cx="52" cy="257" r="7" fill="none" stroke="#f8f7f3"/>
+      <text x="76" y="263" fill="#f8f7f3" font-weight="700">Home</text>
+      <circle cx="250" cy="257" r="12" fill="#f4f1e8"/><text x="246" y="261" fill="#17191d" font-size="10" font-weight="700">2</text>
+      <text x="76" y="316" fill="#9a9da4">Setup</text>
+      <text x="76" y="368" fill="#9a9da4">Design</text>
+      <text x="76" y="420" fill="#9a9da4">Preview</text>
+      <text x="76" y="472" fill="#9a9da4">Review &amp; Build</text>
+    </g>
+    <g stroke="#777b83" fill="none" stroke-width="1.4">
+      <path d="M45 304h15v15H45zM49 309h7M49 313h7"/>
+      <path d="M45 356h15v15H45zM48 360h9M48 365h5"/>
+      <path d="M45 408h15v15H45zM48 416h9M52 412v8"/>
+      <path d="M45 460h15v15H45zM48 464h9M48 469h9"/>
+    </g>
+
+    <rect x="34" y="738" width="232" height="121" rx="13" fill="none" stroke="#292d34"/>
+    <text x="50" y="765" fill="#f5f2e9" font-size="11" font-weight="700" letter-spacing="1.2">SCOPE RULE</text>
+    <text x="50" y="794" fill="#92969e" font-size="13">Suggested never means On.</text>
+    <text x="50" y="817" fill="#92969e" font-size="13">Every major capability stays</text>
+    <text x="50" y="840" fill="#92969e" font-size="13">explicit and reviewable.</text>
+
+    <g transform="translate(360 0)">
+      <text x="0" y="66" fill="#7d8086" font-size="12" letter-spacing="1.8">GUIDED WORKSPACE</text>
+      <text x="0" y="135" fill="#17191d" font-size="62" font-weight="700" letter-spacing="-3">Build the right thing</text>
+      <text x="0" y="198" fill="#17191d" font-size="62" font-weight="700" letter-spacing="-3">before you code it.</text>
+      <text x="0" y="238" fill="#70737a" font-size="16">Describe the product, resolve what matters, then hand implementation a stable contract.</text>
+
+      <rect x="900" y="52" width="174" height="44" rx="10" fill="none" stroke="#c8c7c2"/>
+      <text x="944" y="79" fill="#17191d" font-size="13" font-weight="700">TL;DR mode</text>
+
+      <line x1="0" y1="284" x2="1080" y2="284" stroke="#d8d7d2"/>
+
+      <g>
+        <rect x="0" y="327" width="705" height="210" rx="17" fill="#fbfaf7" stroke="#d8d7d2"/>
+        <text x="24" y="360" fill="#7d8086" font-size="11" letter-spacing="1.5">NEXT DECISION</text>
+        <text x="24" y="410" fill="#17191d" font-size="31" font-weight="700">Describe what you're building</text>
+        <text x="24" y="442" fill="#6f7379" font-size="14">Short answers are enough. Blueprint uses them to surface only</text>
+        <text x="24" y="466" fill="#6f7379" font-size="14">the setup decisions that can change the implementation.</text>
+        <rect x="24" y="490" width="128" height="32" rx="8" fill="#17191d"/>
+        <text x="49" y="511" fill="#ffffff" font-size="12" font-weight="700">Open context</text>
+        <circle cx="668" cy="360" r="14" fill="none" stroke="#84878d"/>
+        <text x="665" y="365" fill="#64676d" font-size="15" font-weight="700">i</text>
+      </g>
+
+      <g>
+        <rect x="730" y="327" width="350" height="210" rx="17" fill="#faf9f5" stroke="#d8d7d2"/>
+        <text x="754" y="360" fill="#7d8086" font-size="11" letter-spacing="1.5">SETUP READINESS</text>
+        <text x="754" y="409" fill="#17191d" font-size="29" font-weight="700">2 decisions</text>
+        <text x="754" y="436" fill="#6f7379" font-size="13">need explicit review</text>
+        <line x1="754" y1="466" x2="1054" y2="466" stroke="#deddd8"/>
+        <text x="754" y="496" fill="#17191d" font-size="12" font-weight="700">Booking &amp; scheduling</text>
+        <text x="1012" y="496" fill="#17191d" font-size="11">REQUIRED</text>
+        <circle cx="760" cy="517" r="4" fill="#5364ef"/>
+        <line x1="772" y1="517" x2="1018" y2="517" stroke="#d8d7d2" stroke-width="5" stroke-linecap="round"/>
+      </g>
+
+      <g transform="translate(0 574)">
+        <text x="0" y="0" fill="#7d8086" font-size="11" letter-spacing="1.5">DESCRIBE → RESOLVE → TUNE IF NEEDED</text>
+        <rect x="0" y="28" width="1080" height="176" rx="16" fill="none" stroke="#d8d7d2"/>
+        <line x1="360" y1="28" x2="360" y2="204" stroke="#d8d7d2"/>
+        <line x1="720" y1="28" x2="720" y2="204" stroke="#d8d7d2"/>
+        <text x="26" y="67" fill="#17191d" font-size="15" font-weight="700">01 · Product scope</text>
+        <text x="26" y="96" fill="#777a80" font-size="13">Only explicit choices authorize features.</text>
+        <text x="386" y="67" fill="#17191d" font-size="15" font-weight="700">02 · Visual direction</text>
+        <text x="386" y="96" fill="#777a80" font-size="13">Preview, refine, then approve a contract.</text>
+        <text x="746" y="67" fill="#17191d" font-size="15" font-weight="700">03 · Build handoff</text>
+        <text x="746" y="96" fill="#777a80" font-size="13">Compile scope, flows, roadmap and proof.</text>
+        <rect x="26" y="132" width="112" height="30" rx="7" fill="#ecebe6"/>
+        <text x="46" y="152" fill="#17191d" font-size="11" font-weight="700">Find Anything</text>
+        <rect x="386" y="132" width="108" height="30" rx="7" fill="#ecebe6"/>
+        <text x="411" y="152" fill="#17191d" font-size="11" font-weight="700">Preview</text>
+        <rect x="746" y="132" width="126" height="30" rx="7" fill="#17191d"/>
+        <text x="769" y="152" fill="#ffffff" font-size="11" font-weight="700">Review &amp; Build</text>
+      </g>
+    </g>
+  </g>
+</svg>

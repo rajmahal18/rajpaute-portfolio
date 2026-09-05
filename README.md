@@ -33,6 +33,7 @@ npm run preview
 - Pure black-and-white visual system; dark mode simply swaps foreground/background roles.
 - No content modals. Meaningful content and project exploration use normal routes/pages.
 - The homepage shows only the four most relevant projects, in this order: Cotabato Pickleball, MPW Dink & Dash 2026, MPW Document Tracking System, OCM The Clinic EMR and Inventory System.
+- RVerse Blueprint is intentionally kept out of the homepage Top 4 and appears first under **More work** on `/work`; RVerse Booking is also kept out of the Top 4 and follows it in the archive.
 - Project cards show the project name without explanatory subtitles. Details are revealed on the project page.
 - Large meaningful hit areas: full project tiles are clickable.
 - Browser back/forward navigation restores the prior scroll position using route-entry scroll state.

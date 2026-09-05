@@ -73,6 +73,12 @@ export function BuildingIcon({ size = 18 }) {
 export function GameIcon({ size = 18 }) {
   return <Icon size={size}><path d="M7.2 8h9.6c2.2 0 3.7 1.6 4 4.2l.4 3.4c.3 2.5-2.6 3.7-4.1 1.7l-1.4-1.8H8.3l-1.4 1.8c-1.5 2-4.4.8-4.1-1.7l.4-3.4C3.5 9.6 5 8 7.2 8Z" /><path d="M8 11v4M6 13h4M16.5 12h.01M18.5 14h.01" /></Icon>;
 }
+export function BlueprintIcon({ size = 18 }) {
+  return <Icon size={size}><rect x="4" y="4" width="16" height="16" rx="1.5" /><path d="M8 4v16M4 9h16M11.5 12.5h5M11.5 16h3" /></Icon>;
+}
+export function CalendarIcon({ size = 18 }) {
+  return <Icon size={size}><rect x="4" y="5.5" width="16" height="14.5" rx="1.5" /><path d="M8 3.5v4M16 3.5v4M4 9.5h16M8 13h2M14 13h2M8 16.5h2M14 16.5h2" /></Icon>;
+}
 export function CodeIcon({ size = 18 }) {
   return <Icon size={size}><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16" /></Icon>;
 }

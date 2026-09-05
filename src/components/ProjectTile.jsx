@@ -3,6 +3,8 @@ import { Link } from "../lib/router";
 import {
   ArrowRightIcon,
   BoxIcon,
+  BlueprintIcon,
+  CalendarIcon,
   BuildingIcon,
   CodeIcon,
   CrossIcon,
@@ -18,6 +20,8 @@ import {
 function ProjectIcon({ project, size = 18 }) {
   const props = { size };
   switch (project.id) {
+    case 16: return <CalendarIcon {...props} />;
+    case 15: return <BlueprintIcon {...props} />;
     case 13: return <MapIcon {...props} />;
     case 14: return <TrophyIcon {...props} />;
     case 2: return <FileTextIcon {...props} />;

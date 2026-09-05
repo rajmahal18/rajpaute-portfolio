@@ -1,5 +1,179 @@
 export const projects = [
   {
+    id: 15,
+    portfolioGroups: ["rverse"],
+    projectPriority: 6,
+    featured: false,
+    status: "LIVE",
+    title: "RVerse Blueprint",
+    workType: "Developer Tool / Product Specification Workspace",
+    role: "Product designer and systems developer",
+    currentStatus: "Live",
+    problemSolved:
+      "Turns loose product ideas into an explicit, reviewable implementation contract so scope, workflows, visual direction, and build expectations are decided before coding starts.",
+    stackSummary: "React, TypeScript, Vite, IndexedDB, local-first persistence",
+    tags: ["React", "TypeScript", "Vite", "IndexedDB", "Product Design", "Developer Tooling"],
+    description:
+      "Local-first application specification and visual direction workspace that converts product intent into guided setup decisions, core flows, implementation sequencing, visual contracts, previews, and prompt-ready build handoffs without silently inventing product scope.",
+    link: "https://rverse-blueprint.pages.dev",
+    screenshot: "/rverse-blueprint.svg",
+    screenshots: ["/rverse-blueprint.svg"],
+
+    realWorld: {
+      usedIn: "Planning and handing off web application builds before implementation",
+      usedBy: "A developer defining product scope, UX behavior, visual direction, and implementation constraints",
+      usageContext:
+        "Built from a recurring problem in AI-assisted development: a short prompt can produce working software quickly, but vague scope, implicit assumptions, generic frontend choices, and inconsistent handoffs become expensive once the build grows. Blueprint moves those decisions into a reusable planning workspace before implementation begins.",
+    },
+
+    caseStudy: {
+      problem:
+        "AI-assisted builds can move from idea to code faster than the product decisions behind them. Optional features get inferred as requirements, long prompts become difficult to review, visual direction collapses into familiar templates, and implementation details drift across iterations. I needed a repeatable way to make the intended product explicit without turning planning into a giant form that has to be completed manually every time.",
+      constraints: [
+        "A new workspace must already be usable without answering hundreds of setup questions",
+        "Suggested functionality must never become implementation scope without an explicit user decision",
+        "Advanced configuration has to remain available without overwhelming the default workflow",
+        "Visual guidance must help prevent generic AI-generated interfaces without inventing functional requirements",
+        "Long specifications need to remain reviewable and exportable as stable implementation handoffs",
+        "Workspace data and uploaded reference assets should persist locally without requiring a backend account",
+      ],
+      solution:
+        "I built Blueprint as a guided, local-first specification workspace. The user describes what is being built, resolves only the decisions that actually matter, defines core flows, shapes the visual direction, previews representative pages and interaction states, explicitly approves a Visual Contract, then exports an implementation-oriented Blueprint. The system keeps product scope, workflow intent, visual authority, recommendations, and implementation judgment as separate layers so one cannot silently override another.",
+      highlights: [
+        "Guided-first workflow that surfaces unresolved goal-critical decisions instead of exposing the full settings catalog by default",
+        "940 schema-driven product and engineering decisions across 52 possible sections with progressive disclosure",
+        "Explicit scope authority: Suggested is never silently converted to On",
+        "Project Context intent detection that flags missing booking, inventory, clinic, document workflow, tournament, directory, reporting, subscription, and other relevant setup decisions",
+        "User-authored Core Flows plus a derived implementation roadmap that sequences work without creating new scope",
+        "Visual DNA, Visual Director, Pattern Explorer, Page Composition Intelligence, and Preview Studio for deliberate frontend direction",
+        "Explicit visual approval that freezes a stable Visual Contract and detects when later edits make that approval stale",
+        "Anti-homogeneity checks and frontend quality constraints designed to reduce generic AI-generated visual patterns",
+        "Persistent TL;DR mode and contextual info explainers for dense or unfamiliar concepts",
+        "Find Anything command palette with typo-tolerant search and direct jumps to hidden settings",
+        "Prompt-ready implementation contract and full Blueprint reference exports",
+      ],
+      technicalImplementation: [
+        "Built the application in React and TypeScript with a schema-driven configuration model so hundreds of decisions can share consistent state, defaults, search metadata, review behavior, and compiler output.",
+        "Separated explicit App Setup scope from derived recommendation, Project Context, Core Flow, visual, and roadmap layers to prevent lower-authority signals from accidentally activating functionality.",
+        "Implemented typed review signals and guided readiness logic so the same unresolved-decision definition powers Home, Setup, badges, banners, Finder, exports, and the final build-readiness gate.",
+        "Used IndexedDB for local-first workspace persistence and reference assets, including current/recovery workspace envelopes and backup/import flows without requiring a server-side user account.",
+        "Built deterministic compiler/export functions that turn structured configuration into implementation prompts, scope contracts, roadmap guidance, acceptance criteria, edge cases, and supporting project documentation.",
+        "Added regression suites across the configuration engine, persistence, review intelligence, scope compiler, flows, roadmap, visual intelligence, approval contract, guided UX, and visual guidance layers.",
+      ],
+      challengesAndDecisions: [
+        "The biggest design problem was not adding more settings; it was keeping a very large configuration system usable. The default experience therefore became Describe → Resolve → Tune if needed, with the full catalog treated as an escape hatch rather than the main workflow.",
+        "Recommendations needed a hard authority boundary. Blueprint can identify a capability the stated goal appears to need, but the system only surfaces the mismatch and waits for an explicit Include / Not needed decision instead of silently enabling it.",
+        "Visual intelligence had to stay powerful without becoming functional scope authority, so page proposals, previews, design references, and approved visual contracts are explicitly presentation-only.",
+        "A visual approval is only useful if it stays trustworthy. Material changes to the underlying visual direction therefore mark the saved contract stale until the user reviews and approves it again.",
+        "Dense planning tools easily become documentation walls, so v0.33 added reusable TL;DR presentation and contextual concept explainers while deliberately preserving blockers, warnings, status, and primary actions.",
+      ],
+      metrics: [
+        "940 schema-driven product and engineering decisions",
+        "52 possible setup sections under progressive disclosure",
+        "229 named regression checks at the v0.33 milestone",
+        "One local-first workspace spanning product scope, workflows, visual direction, preview, approval, and implementation handoff",
+      ],
+      outcome:
+        "Blueprint turns my app-building process into a reusable product instead of a sequence of increasingly long prompts. It gives me a stable place to decide what the software should do, what it should not assume, how it should feel, what must be proven before completion, and exactly what the implementation AI should receive. The result is less prompt drift, less accidental scope, and a much stronger starting point for building distinct applications quickly.",
+      whatIdImproveNext: [
+        "Continue expanding high-confidence intent detection for additional application domains without weakening explicit scope authority",
+        "Add more visual reference and composition intelligence while keeping the approved Visual Contract compact and implementation-ready",
+        "Keep reducing repetitive configuration work through safe recommendations, presets, and reusable product patterns",
+        "Deepen validation around generated handoffs as the Blueprint compiler grows",
+      ],
+      links: {
+        live: "https://rverse-blueprint.pages.dev",
+        repo: "#",
+      },
+    },
+  },
+
+  {
+    id: 16,
+    portfolioGroups: ["rverse"],
+    projectPriority: 6,
+    featured: false,
+    status: "LIVE",
+    title: "RVerse Booking",
+    workType: "Booking / Scheduling Product Demo",
+    role: "Product designer and full-stack developer",
+    currentStatus: "Live",
+    problemSolved:
+      "Gives court owners a hands-on way to understand an online booking system by letting them try both the player journey and the staff workflow instead of relying on a static sales pitch.",
+    stackSummary: "React, TypeScript, Vite, Motion, React Router, Vercel",
+    tags: ["React", "TypeScript", "Vite", "Motion", "React Router", "Product Design", "Booking UX", "Vercel"],
+    description:
+      "Mobile-first sales site and interactive fictional court demo for RVerse booking systems. PickleRVerse lets prospects experience court discovery, live availability, booking, booking management, payment review, staff scheduling, and venue configuration from both sides of the same simulated operation.",
+    link: "https://rverse-booking.vercel.app",
+    screenshot: "/rverse-booking-venue.webp",
+    screenshots: ["/rverse-booking-venue.webp", "/rverse-booking-aerial.webp"],
+
+    realWorld: {
+      usedIn: "Demonstrating and selling customizable booking systems to sports facilities",
+      usedBy: "Prospective court owners, facility staff, and players evaluating the booking experience",
+      usageContext:
+        "Built as a prospect-facing product demo rather than a generic mockup. A court owner can enter the fictional PickleRVerse venue, make a sample booking as a player, switch to Court Staff, and see the same booking and schedule state from the operational side.",
+    },
+
+    caseStudy: {
+      problem:
+        "Explaining a booking system through screenshots, feature lists, or a long proposal makes the product harder to evaluate than it needs to be. Prospective court owners need to see what their customers would experience, what their staff would control, and how the system could feel like part of their own venue brand without first committing to a full implementation.",
+      constraints: [
+        "The public booking flow must be immediately understandable on a phone for non-technical users",
+        "The demo must show both customer and staff workflows without pretending to be a production backend",
+        "Changes made in one demo view should appear coherently in the other view within the same browser",
+        "The fictional venue should feel like a real place with a distinct identity rather than a generic SaaS template",
+        "High-motion presentation must never make the core booking actions harder to find or use",
+        "The sales site needs to explain pricing, capabilities, and customization without overwhelming a prospect",
+      ],
+      solution:
+        "I built RVerse Booking as a combined sales experience and interactive product simulation. The public side uses the fictional PickleRVerse court as a complete branded venue, while the booking and Court Staff views share the same seeded browser state. Prospects can move from venue discovery to a sample booking, manage that booking, switch roles, review payment proofs, add walk-ins, block schedules, and change public-facing venue settings without leaving the demo.",
+      highlights: [
+        "Mobile-first PickleRVerse venue with court details, live availability, amenities, location information, house rules, and clear booking entry points",
+        "Compact multi-court schedule with obvious availability states and a four-step booking flow with a persistent booking summary",
+        "Booking lookup and management flow for reviewing or updating a sample reservation",
+        "Court Staff workspace for schedule review, manual bookings, blocked slots, rescheduling, cancellation, and payment-proof verification",
+        "Shared demo state so player bookings and staff-side changes stay synchronized in the same browser",
+        "Configurable court names, rates, venue identity, operating details, amenities, rules, parking information, and manual payment instructions",
+        "Guided role switching so prospects can understand the relationship between the player and operations sides without needing a walkthrough",
+        "Environment-derived visual system using the fictional court's blue, lime, navy, concrete, sky, and foliage tones instead of a detached software palette",
+        "Continuous pickleball motion language including rally animation, kinetic court typography, route-loading ball motion, and an animated PickleRVerse mark while respecting reduced-motion preferences",
+      ],
+      technicalImplementation: [
+        "Built with React 19 and TypeScript on Vite, using React Router for the sales, venue, booking, booking-management, and Court Staff routes.",
+        "Used Motion for coordinated page, logo, rally, hover, and scroll animation while keeping operational screens comparatively restrained.",
+        "Modeled the interactive demo around seeded local state persisted in localStorage so player and staff views can share bookings, blocks, settings, and payment status without requiring a backend account.",
+        "Kept the booking schedule and staff schedule on the same status language so availability, reserved hours, blocked hours, manual bookings, and completed selections remain easy to compare.",
+        "Added SPA fallback configuration for Vercel and Cloudflare Pages so deep demo routes remain directly accessible.",
+      ],
+      metrics: [
+        "5 primary live routes across sales, player, booking, booking management, and Court Staff",
+        "3 fictional courts sharing one schedule model",
+        "2 synchronized perspectives: player and court staff",
+        "1 browser-local demo state that can be reset to a known seed",
+      ],
+      challengesAndDecisions: [
+        "The demo needed enough operational depth to prove the product without implying that localStorage was the intended production architecture, so the interface is explicit about being a simulation while the workflow mirrors a real deployment.",
+        "A highly animated venue can easily become harder to use on mobile. I kept the presentation layer expressive but made the booking path, schedule states, sticky summary, and Court Staff controls visually disciplined.",
+        "The fictional venue became the design source rather than a decorative image. Its court surface, apron, fencing, lighting, and brand mark drive the UI palette and motion language so the software feels native to the place it represents.",
+        "The sales site separates the sample workflow from client branding expectations, making it clear that a real deployment can use the court owner's own name, logo, colors, rates, rules, and payment setup.",
+      ],
+      outcome:
+        "RVerse Booking is now a live, self-explanatory sales asset that lets a prospect experience the product instead of only reading about it. It demonstrates the customer journey, day-to-day staff controls, brand customization potential, and the mobile-first visual quality I want future court deployments to inherit.",
+      whatIdImproveNext: [
+        "Add a guided brand preview where a prospect can enter a court name and logo and immediately see the fictional venue theme adapt",
+        "Expand the demo with additional real-world scheduling edge cases while keeping the first-time experience simple",
+        "Connect client deployments to production-grade authentication, database persistence, and payment integrations based on the agreed operating model",
+        "Continue refining motion and responsive behavior without increasing cognitive load in the booking flow",
+      ],
+      links: {
+        live: "https://rverse-booking.vercel.app",
+        repo: "#",
+      },
+    },
+  },
+
+  {
     id: 14,
     portfolioGroups: ["client"],
     projectPriority: 6,
