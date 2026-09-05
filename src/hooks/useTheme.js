@@ -117,7 +117,8 @@ export function useTheme({ animate = true } = {}) {
       // Randomness belongs only to the moment light is created. The inverse
       // transition must use the same physical source so the resident never
       // powers down from a curtain-created light state.
-      effect = Math.random() < 0.5 ? "curtain" : "power";
+      // Power is an occasional discovery, not the default personality of the site.
+      effect = Math.random() < 0.2 ? "power" : "curtain";
       if (effect === lastEffectRef.current && effectRepeatRef.current >= 2) {
         effect = effect === "power" ? "curtain" : "power";
       }

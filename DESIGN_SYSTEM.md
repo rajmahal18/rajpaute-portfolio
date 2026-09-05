@@ -4,7 +4,7 @@
 
 The portfolio is a quiet monochrome frame for the work: restrained, editorial, technical, and deliberately sparse. Individual projects provide the subject matter. The shell must not inherit a visual theme from any one project (including pickleball or sports motifs).
 
-Project imagery is intentionally absent from the homepage/work indexes. Screenshots appear inside project case-study pages and remain grayscale so the portfolio keeps one identity.
+Project imagery is intentionally absent from the homepage/work indexes. Project media appears only inside case-study routes, where it may use its original color. The monochrome portfolio shell remains the frame; project color belongs to the work itself, not to navigation, metadata, or status UI.
 
 ## Color tokens
 
@@ -52,7 +52,7 @@ No semantic colors. No colored status badges. No gradients. Dark mode is the sam
 - Thin monochrome rules and borders
 - No nested decorative cards
 - Case-study images use restrained editorial framing
-- Project screenshots are grayscale and never color-revealed on hover
+- Project screenshots and hero media may retain their original color inside case studies; indexes remain image-free and monochrome
 - Arrow-up-right is reserved for genuinely external destinations; internal navigation uses normal directional arrows or no arrow
 
 ## Motion
@@ -81,7 +81,7 @@ On mobile, the sticky header uses two intentional rows: brand/theme first, then 
 
 Mental math is an identity detail, not a theme change.
 
-- It appears on the homepage between the hero and `Selected work`.
+- It appears on the homepage after `Selected work`, so project evidence is encountered before the personal challenge.
 - Use the same narrow centered shell, typefaces, rules, icon weight, spacing system, and monochrome inversion as the rest of the site.
 - The idle state should feel almost like editorial copy: `Mental math`, a short line, and `Start`.
 - Hide the actual problem until timing starts.
@@ -132,7 +132,7 @@ Stacked fractions must sit visually inside the same equation line. Keep them com
 
 The portfolio has one deliberate motion exception: a small monochrome stick figure that behaves like a math-aware resident of the interface. The companion can stay present across public routes, pace inside the viewport while the visitor scrolls, track pointer direction subtly, react to real button presses, and create/throw small operators or geometric figures. Mental Math still provides its strongest state-driven reactions.
 
-The companion does not justify animating the rest of the interface. Work cards, case studies, About, Contact, typography, and navigation keep their existing restrained motion language. The figure should live mostly in edge whitespace and react only when there is a reason; no ambient symbol clouds, random particles, or constant spectacle. UI reactions never delay ordinary button behavior. Internal navigation has one narrow Phase 3 exception: when the companion is free, route commit waits only for the short π-entry beat; reduced-motion navigation stays immediate. Reduced-motion users receive a static non-spawning figure.
+The companion does not justify animating the rest of the interface. Work cards, case studies, About, Contact, typography, and navigation keep their existing restrained motion language. The figure should live mostly in edge whitespace and react only when there is a reason; no ambient symbol clouds, random particles, or constant spectacle. Ordinary UI buttons no longer trigger generic pointing reactions. Internal navigation stays immediate unless the visitor has deliberately clicked the companion and armed a single π-portal transition. Reduced-motion users receive a static non-spawning figure.
 
 ## Math companion motion baseline
 
@@ -152,11 +152,11 @@ Locomotion is speed-aware. Preserve distinct walk, brisk-walk, run, and sprint m
 
 The theme shutter may use very subtle user-initiated physical audio: a quiet fabric-like swish and tiny landing taps. No autoplay, ambience, music, cartoon effects, or persistent sound layer.
 
-Internal navigation may use the companion's π portal. It is a local mathematical doorway, not a page transition overlay: spawn it in front of the figure from the figure's exact live position and pre-click facing direction, let the figure enter, commit the route while hidden inside, then let the same local portal release it on the destination. Keep π short-lived, monochrome, pointer-transparent, and secondary to the page. External links do not use it.
+Internal navigation may use the companion's π portal only after a deliberate companion click arms the next route transition. It is a local mathematical doorway, not a default page transition: spawn it in front of the figure from the figure's exact live position and pre-click facing direction, let the figure enter, commit the route while hidden inside, then let the same local portal release it on the destination. Keep π short-lived, monochrome, pointer-transparent, and secondary to the page. External links do not use it.
 
 ## Dual theme transition
 
-Theme switching may choose between two companion-led monochrome transitions when creating light from dark. Curtain mode keeps the physical shutter. Power mode keeps the figure in place and treats it as the light source: a restrained living gray flame-energy field builds, then white expands smoothly from the figure. The inverse light → dark transition must use the same source effect that created the current light state: curtain-created/default light closes with curtain; power-created light contracts back into the powered resident. Both effects sit behind readable site content, remain pointer-transparent, and preserve the calm editorial hierarchy. No colored aura, gradients, glow filters, particle clouds, or full-screen anime styling.
+Theme switching may choose between two companion-led monochrome transitions when creating light from dark. Curtain is the normal transition; power is an occasional Easter egg rather than a 50/50 default. Curtain mode keeps the physical shutter. Power mode keeps the figure in place and treats it as the light source: a restrained living gray flame-energy field builds, then white expands smoothly from the figure. The inverse light → dark transition must use the same source effect that created the current light state: curtain-created/default light closes with curtain; power-created light contracts back into the powered resident. Both effects sit behind readable site content, remain pointer-transparent, and preserve the calm editorial hierarchy. No colored aura, gradients, glow filters, particle clouds, or full-screen anime styling.
 
 ## Resident polish guardrail
 

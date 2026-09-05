@@ -32,9 +32,12 @@ npm run preview
 
 - Pure black-and-white visual system; dark mode simply swaps foreground/background roles.
 - No content modals. Meaningful content and project exploration use normal routes/pages.
-- The homepage shows only the four most relevant projects, in this order: Cotabato Pickleball, MPW Dink & Dash 2026, MPW Document Tracking System, OCM The Clinic EMR and Inventory System.
+- The homepage shows only the four most relevant projects, in this order: MPW Dink & Dash 2026, MPW Document Tracking System, OCM The Clinic EMR and Inventory System, Cotabato Pickleball.
 - RVerse Blueprint is intentionally kept out of the homepage Top 4 and appears first under **More work** on `/work`; RVerse Booking is also kept out of the Top 4 and follows it in the archive.
 - Project cards show the project name without explanatory subtitles. Details are revealed on the project page.
+- Home prioritizes proof before personality: Selected work appears directly after the hero; Mental Math follows the selected-project evidence.
+- Case studies start with a compact `Quick read`, keep the default narrative short, and move implementation-heavy material into a native `Engineering deep dive` disclosure.
+- The portfolio shell stays monochrome, while project media inside case studies uses the project’s original color so visual/product work can be evaluated honestly.
 - Large meaningful hit areas: full project tiles are clickable.
 - Browser back/forward navigation restores the prior scroll position using route-entry scroll state.
 - Sparse composition, generous whitespace, restrained motion, consistent labels, and a single monochrome icon language.
@@ -61,7 +64,7 @@ The About-page contribution calendar is fetched server-side through `functions/a
 - Added a long-idle cross-legged seated state with a proper stand-up transition before movement/actions.
 - Expanded locomotion into speed-aware walk, brisk walk, run, and sprint states with hysteresis while preserving the real velocity readout and tiny math foot trail.
 - Added subtle user-initiated Web Audio for the physical theme shutter (swish + tiny landing taps) without adding public audio assets.
-- Added a persistent π route portal for internal navigation. It spawns from the companion's live current position and facing direction, carries the figure across the route change, then closes before the figure rejoins the destination scroll target.
+- The π route portal is now a deliberate Easter egg: clicking the companion arms one portal transition; ordinary internal navigation stays immediate. When armed, the portal still spawns from the companion's live position and facing direction and preserves the existing continuity choreography.
 
 ## Jointed companion foundation
 

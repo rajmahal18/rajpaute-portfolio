@@ -25,6 +25,16 @@ function CaseSection({ label, children }) {
   );
 }
 
+function DeepDiveGroup({ label, children }) {
+  if (!children) return null;
+  return (
+    <section className="deep-dive-group">
+      <h3>{label}</h3>
+      {children}
+    </section>
+  );
+}
+
 export default function ProjectPage({ slug }) {
   const project = getProjectBySlug(slug);
   const { goBack } = useRouter();
@@ -45,8 +55,30 @@ export default function ProjectPage({ slug }) {
   }
 
   const screenshots = getProjectScreenshots(project);
+  const screenshotCaptions = Array.isArray(project.screenshotCaptions) ? project.screenshotCaptions : [];
   const caseStudy = project.caseStudy || {};
   const liveLink = project.link && project.link !== "#" ? project.link : caseStudy.links?.live && caseStudy.links.live !== "#" ? caseStudy.links.live : null;
+  const constraints = caseStudy.constraints || [];
+  const highlights = caseStudy.highlights || [];
+  const visibleConstraints = constraints.slice(0, 3);
+  const visibleHighlights = highlights.slice(0, 4);
+  const additionalConstraints = constraints.slice(3);
+  const additionalHighlights = highlights.slice(4);
+  const hasDeepDive = Boolean(
+    additionalConstraints.length
+    || additionalHighlights.length
+    || caseStudy.technicalImplementation?.length
+    || caseStudy.metrics?.length
+    || caseStudy.challengesAndDecisions?.length
+    || caseStudy.whatIdImproveNext?.length
+  );
+
+  const quickRead = [
+    { label: "Problem", value: project.problemSolved || project.description },
+    { label: "Context", value: project.realWorld?.usedIn },
+    { label: "Used by", value: project.realWorld?.usedBy },
+    { label: "Proof", value: project.proofLine },
+  ].filter((item) => item.value);
 
   return (
     <main className="project-page site-shell">
@@ -82,7 +114,28 @@ export default function ProjectPage({ slug }) {
         )}
       </header>
 
-      <ProjectVisual project={project} eager className="project-hero-visual" />
+      {quickRead.length > 0 && (
+        <section className="project-quick-read" aria-labelledby="quick-read-title">
+          <div className="project-quick-read-heading">
+            <SectionLabel>Quick read</SectionLabel>
+            <h2 id="quick-read-title" className="sr-only">Project quick read</h2>
+            <p>What matters before the implementation details.</p>
+          </div>
+          <div className="project-quick-read-grid">
+            {quickRead.map((item) => (
+              <div key={item.label} className="project-quick-read-item">
+                <span>{item.label}</span>
+                <p>{item.value}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <figure className="project-hero-media">
+        <ProjectVisual project={project} eager className="project-hero-visual" />
+        {project.heroCaption && <figcaption>{project.heroCaption}</figcaption>}
+      </figure>
 
       <div className="case-study-layout">
         <CaseSection label="Overview">
@@ -92,39 +145,26 @@ export default function ProjectPage({ slug }) {
 
         <CaseSection label="Challenge">
           <p>{caseStudy.problem || project.problemSolved}</p>
-          <DetailList items={caseStudy.constraints} />
+          <DetailList items={visibleConstraints} />
         </CaseSection>
 
         <CaseSection label="Approach">
           <p>{caseStudy.solution}</p>
-          <DetailList items={caseStudy.highlights} />
+          <DetailList items={visibleHighlights} />
         </CaseSection>
-
-        {(caseStudy.technicalImplementation?.length || caseStudy.metrics?.length) ? (
-          <CaseSection label="Build details">
-            <DetailList items={caseStudy.technicalImplementation || caseStudy.metrics} />
-            {caseStudy.technicalImplementation?.length && caseStudy.metrics?.length ? (
-              <div className="metric-lines">
-                {caseStudy.metrics.map((metric) => <span key={metric}>{metric}</span>)}
-              </div>
-            ) : null}
-          </CaseSection>
-        ) : null}
-
-        {caseStudy.challengesAndDecisions?.length ? (
-          <CaseSection label="Key decisions">
-            <DetailList items={caseStudy.challengesAndDecisions} />
-          </CaseSection>
-        ) : null}
 
         {screenshots.length > 1 && (
           <section className="case-section screenshots-section">
-            <SectionLabel>Screenshots</SectionLabel>
+            <SectionLabel>Proof</SectionLabel>
             <div className="screenshot-grid">
               {screenshots.map((src, index) => (
                 <Link key={`${src}-${index}`} href={`/work/${project.slug}/screens/${index + 1}`} className="screenshot-link" aria-label={`Open screenshot ${index + 1} of ${project.displayTitle}`}>
                   <img src={src} alt="" loading="lazy" decoding="async" draggable="false" />
-                  <span>{String(index + 1).padStart(2, "0")} <ArrowRightIcon size={14} /></span>
+                  <span className="screenshot-caption-row">
+                    <small>{String(index + 1).padStart(2, "0")}</small>
+                    <span>{screenshotCaptions[index] || "Project interface"}</span>
+                    <ArrowRightIcon size={14} />
+                  </span>
                 </Link>
               ))}
             </div>
@@ -133,15 +173,57 @@ export default function ProjectPage({ slug }) {
 
         {caseStudy.outcome ? (
           <CaseSection label="Outcome">
-            <p>{caseStudy.outcome}</p>
+            <p className="lead-copy outcome-copy">{caseStudy.outcome}</p>
           </CaseSection>
         ) : null}
 
-        {caseStudy.whatIdImproveNext?.length ? (
-          <CaseSection label="Next">
-            <DetailList items={caseStudy.whatIdImproveNext} />
-          </CaseSection>
-        ) : null}
+        {hasDeepDive && (
+          <details className="case-deep-dive">
+            <summary>
+              <span>Engineering deep dive</span>
+              <small>Implementation, decisions, metrics, and next steps</small>
+            </summary>
+            <div className="case-deep-dive-content">
+              {additionalConstraints.length ? (
+                <DeepDiveGroup label="Additional constraints">
+                  <DetailList items={additionalConstraints} />
+                </DeepDiveGroup>
+              ) : null}
+
+              {additionalHighlights.length ? (
+                <DeepDiveGroup label="Additional capabilities">
+                  <DetailList items={additionalHighlights} />
+                </DeepDiveGroup>
+              ) : null}
+
+              {caseStudy.technicalImplementation?.length ? (
+                <DeepDiveGroup label="Implementation">
+                  <DetailList items={caseStudy.technicalImplementation} />
+                </DeepDiveGroup>
+              ) : null}
+
+              {caseStudy.metrics?.length ? (
+                <DeepDiveGroup label="Build footprint">
+                  <div className="metric-lines">
+                    {caseStudy.metrics.map((metric) => <span key={metric}>{metric}</span>)}
+                  </div>
+                </DeepDiveGroup>
+              ) : null}
+
+              {caseStudy.challengesAndDecisions?.length ? (
+                <DeepDiveGroup label="Key decisions">
+                  <DetailList items={caseStudy.challengesAndDecisions} />
+                </DeepDiveGroup>
+              ) : null}
+
+              {caseStudy.whatIdImproveNext?.length ? (
+                <DeepDiveGroup label="Next">
+                  <DetailList items={caseStudy.whatIdImproveNext} />
+                </DeepDiveGroup>
+              ) : null}
+            </div>
+          </details>
+        )}
       </div>
 
       <div className="project-end-nav">

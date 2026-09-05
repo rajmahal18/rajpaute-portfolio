@@ -11,7 +11,7 @@ export const site = {
     { label: "Instagram", href: "https://instagram.com/rajpaute" },
   ],
   intro:
-    "Most of what I build sits close to real operations — government workflows, public platforms, automation, and software that still has to make sense after deployment.",
+    "I design, build, deploy, and maintain workflow-heavy systems for government operations, healthcare, community platforms, and automation — software that still has to make sense after deployment.",
   about:
     "I’m a Software Engineer and licensed Electronics Engineer. I like work where software has to fit real people, real constraints, and the messy parts of day-to-day operations — not just look good in a demo.",
   currentLearning:

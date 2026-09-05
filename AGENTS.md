@@ -21,7 +21,7 @@ Do not reorder these unless explicitly requested.
 
 ## 4. Pure black and white
 
-The brand is strictly black and white. Gray hierarchy is created only through opacity of black/white. Light mode and dark mode use the same design system with foreground/background roles interchanged. Do not add accent colors, gradients, colored statuses, or theme-specific palettes. Project imagery is rendered in grayscale inside the portfolio.
+The brand is strictly black and white. Gray hierarchy is created only through opacity of black/white. Light mode and dark mode use the same design system with foreground/background roles interchanged. Do not add accent colors, gradients, colored statuses, or theme-specific palettes. The portfolio shell is strictly monochrome, but project media inside case-study routes may retain its original color. Homepage and `/work` indexes remain image-free.
 
 The portfolio shell must never inherit the theme of an individual project. In particular, do not add pickleball/sports motifs simply because two featured projects involve pickleball.
 
@@ -162,13 +162,13 @@ Do not alternate between `Projects`, `Portfolio`, `Case Studies`, and `Work` for
 - Locomotion is speed-aware: idle → walk → brisk walk → run → sprint. Use hysteresis around thresholds so the gait cannot flicker rapidly between states. Faster states must change stride length, knee lift, arm swing, body lean, and cadence rather than merely speeding up the same walk cycle.
 - Keep the existing velocity annotation and tiny math foot trail tied to actual movement. They remain ephemeral and disappear at rest.
 - Theme audio is intentionally tiny and only becomes available after the user's theme-button gesture unlocks Web Audio. The shutter gets a low-volume fabric-like swish and edge/rejoin landings may get a soft tap. No sound UI, music, ambience, or autoplay.
-- Internal route navigation may use a π portal. The portal always spawns from the companion's live current position and **pre-click facing direction**, never from a fixed page/nav coordinate and never by turning toward the clicked control first. The figure enters before the route commits, exits through the same local portal on the destination, then rejoins the new route's scroll target.
+- Internal route navigation may use a π portal only when the visitor has deliberately clicked the companion and armed the next transition. Ordinary navigation must stay immediate. When armed, the portal always spawns from the companion's live current position and **pre-click facing direction**, never from a fixed page/nav coordinate and never by turning toward the clicked control first. The figure enters before the route commits, exits through the same local portal on the destination, then rejoins the new route's scroll target.
 - The π portal is monochrome, typographic/geometric, short-lived, pointer-transparent, and belongs to the companion layer. It must not become a full-screen transition or block the site. External links do not use it.
 - Theme choreography has higher priority than portal choreography; if the companion is already operating the shutter, navigation must continue immediately rather than interrupting the shutter with a portal.
 
 ## Math companion Phase 4 — dual theme choreography
 
-- Theme toggle randomly selects one of two restrained effects: the existing companion-led curtain or a companion-powered radial light transition.
+- Theme toggle uses the companion-led curtain as the normal effect. The companion-powered radial light transition is an occasional Easter egg and should remain materially less frequent than curtain.
 - Power mode must use the companion's exact live viewport position as the source. Dark → light expands a white circle from the figure; light → dark contracts the remaining white circle back into the figure before settling dark.
 - Power mode uses only a restrained gray layered energy contour around the figure. Avoid literal flame tongues, yellow/color, glow filters, gradients, particle fields, large screen shake, or a long anime cutscene.
 - The radial layer stays behind portfolio content and `pointer-events: none`. Browsing/scrolling must remain usable throughout the transition.

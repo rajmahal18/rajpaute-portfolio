@@ -107,6 +107,13 @@ export const projects = [
     link: "https://rverse-booking.vercel.app",
     screenshot: "/rverse-booking-venue.webp",
     screenshots: ["/rverse-booking-venue.webp", "/rverse-booking-aerial.webp"],
+    heroCaption:
+      "The fictional PickleRVerse venue is the design source for the demo, so the booking interface feels native to the court instead of layered on top of it.",
+    proofLine: "Player + staff demo · shared booking state · mobile-first flow · venue-derived visual system",
+    screenshotCaptions: [
+      "Front venue view establishes the fictional court identity used throughout the booking experience.",
+      "Aerial view makes the three-court layout legible and gives the demo a consistent physical world to reference.",
+    ],
 
     realWorld: {
       usedIn: "Demonstrating and selling customizable booking systems to sports facilities",
@@ -202,8 +209,11 @@ export const projects = [
     description:
       "Production tournament operations and public live-event platform for MPW Dink & Dash 2026, built around a configurable multi-division engine, concurrency-safe scoring, dynamic brackets, team workflows, fan engagement, analytics, and event recovery.",
     link: "https://mpwdinkanddash.cotabatopickleball.com",
-    screenshot: "/mpwdnd.png",
-    screenshots: ["/mpwdnd.png"],
+    screenshot: "/mpw-dnd.png",
+    screenshots: ["/mpw-dnd.png"],
+    heroCaption:
+      "Production tournament platform for a live MPW event, combining organizer operations, scoring, qualification, team workflows, public results, and recovery controls.",
+    proofLine: "Live event operations · concurrency-safe scoring · public results · recovery tooling",
     realWorld: {
       usedIn: "MPW Dink & Dash 2026 pickleball tournament",
       usedBy: "Tournament organizers, scoring operators, team managers, players, and public spectators",
@@ -355,7 +365,7 @@ export const projects = [
     portfolioGroups: ["rverse"],
     projectPriority: 5,
     featured: true,
-    featuredOrder: 1,
+    featuredOrder: 3,
     status: "LIVE",
     title: "Cotabato Pickleball",
     workType: "Personal Product",
@@ -381,8 +391,11 @@ export const projects = [
     description:
       "Production court-discovery platform for the Cotabato pickleball community, with 46 listed courts, searchable map/list views, venue details, booking-channel handoffs, live availability integrations for participating venues, owner verification context, and discovery-to-booking intent analytics.",
     link: "https://cotabatopickleball.com",
-    screenshot: "/cotabatopickleball.png",
-    screenshots: ["/cotabatopickleball.png"],
+    screenshot: "/cbo-pickleball.png",
+    screenshots: ["/cbo-pickleball.png"],
+    heroCaption:
+      "Public-facing court discovery product: a searchable local venue layer designed to move players from scattered information toward a clear booking or contact path.",
+    proofLine: "46 listed courts · map discovery · availability sync · booking-intent analytics",
 
     realWorld: {
       usedIn: "Public local sports directory",
@@ -518,15 +531,25 @@ export const projects = [
       "Tracks where a document is, who handled it, what office it was routed to, and what movement happened over time.",
     stackSummary: "PHP, MySQL, JavaScript, HTML, CSS",
     featured: true,
-    featuredOrder: 2,
+    featuredOrder: 1,
     title: "Ministry of Public Works Regional Office Document Tracking System",
     tags: ["PHP", "MySQL", "JavaScript", "HTML", "CSS"],
     description:
       "Built for internal government document routing and monitoring. The system helps staff track document status, routing history, assigned offices, and movement logs with role-based access and audit visibility.",
 
     link: "https://doctracker.mpwppd.online",
-    screenshot: "/mpwdts.png",
-    screenshots: ["/mpwdts.png", "/dt2.png", "/dt3.png", "/dt5.png", "/dt1.png"],
+    screenshot: "/mpw-dts.png",
+    screenshots: ["/mpw-dts.png", "/dt2.png", "/dt3.png", "/dt5.png", "/dt1.png"],
+    heroCaption:
+      "Internal government workflow system centered on traceable document movement, current ownership, role-aware routing, and a complete operational audit trail.",
+    proofLine: "100+ internal users · branching routing · current-holder visibility · full movement audit trail",
+    screenshotCaptions: [
+      "System overview highlighting routing, visibility, audit trail, and operational monitoring.",
+      "Document work queue with status filters, ownership context, search, and routing-ready actions.",
+      "Document detail view keeps the live routing timeline visible beside the operational work queue.",
+      "Document detail view brings attachments and movement history into the same traceable record.",
+      "Released-document state preserves record details, attachments, and movement history after completion.",
+    ],
 
     realWorld: {
       usedIn: "Ministry of Public Works – Technical Services",
@@ -795,8 +818,7 @@ export const projects = [
     id: 5,
     portfolioGroups: ["rverse"],
     projectPriority: 3,
-    featured: true,
-    featuredOrder: 3,
+    featured: false,
     status: "LIVE",
     title: "RVerse Finance",
     workType: "Personal Product",
@@ -1066,6 +1088,8 @@ export const projects = [
     projectPriority: 4,
     visibility: "Private",
     status: "IN_PROGRESS",
+    featured: true,
+    featuredOrder: 2,
     title: "Office of the Chief Minister Clinic EMR and Inventory System",
     workType: "Client Project",
     role: "Full-stack developer",
@@ -1077,7 +1101,10 @@ export const projects = [
     description:
       "Clinic records and inventory system for managing patient records, consultations, medicine stock, dispensing activity, and operational reports.",
     link: "#",
-    screenshot: "/ocmtheclinic.png",
+    screenshot: "/ocm-theclinic.png",
+    heroCaption:
+      "Private clinic system connecting patient records, consultations, medicine inventory, dispensing activity, and operational reporting in one workflow.",
+    proofLine: "Patient records · clinical documentation · medicine inventory · reporting in one connected system",
 
     realWorld: {
       usedIn: "Clinic operations",

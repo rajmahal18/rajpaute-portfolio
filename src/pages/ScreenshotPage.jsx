@@ -10,6 +10,7 @@ export default function ScreenshotPage({ slug, index }) {
   const screenshots = getProjectScreenshots(project);
   const currentIndex = Math.min(Math.max(Number(index || 1) - 1, 0), Math.max(screenshots.length - 1, 0));
   const src = screenshots[currentIndex];
+  const caption = project?.screenshotCaptions?.[currentIndex];
   const { goBack } = useRouter();
 
   usePageMeta(project ? `${project.displayTitle} — Screenshot ${currentIndex + 1}` : "Screenshot", "Project screenshot by Raj Paute.");
@@ -38,9 +39,12 @@ export default function ScreenshotPage({ slug, index }) {
         </div>
         <span>{currentIndex + 1} / {screenshots.length}</span>
       </div>
-      <div className="screenshot-stage">
-        <img src={src} alt={`${project.displayTitle} screenshot ${currentIndex + 1}`} draggable="false" />
-      </div>
+      <figure className="screenshot-figure">
+        <div className="screenshot-stage">
+          <img src={src} alt={`${project.displayTitle} screenshot ${currentIndex + 1}`} draggable="false" />
+        </div>
+        {caption && <figcaption>{caption}</figcaption>}
+      </figure>
       <nav className="screenshot-nav" aria-label="Screenshot navigation">
         {previous ? (
           <Link href={`/work/${project.slug}/screens/${previous}`} className="text-link"><ArrowLeftIcon size={15} /> Previous</Link>

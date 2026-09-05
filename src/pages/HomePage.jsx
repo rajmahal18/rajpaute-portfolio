@@ -15,7 +15,7 @@ export default function HomePage() {
     <main>
       <section className="home-hero site-shell">
         <div className="hero-eyebrow-row">
-          <div className="icon-label"><WorkIcon size={14} /><SectionLabel>Software Engineer</SectionLabel></div>
+          <div className="icon-label"><WorkIcon size={14} /><SectionLabel>{site.role}</SectionLabel></div>
           <span className="hero-location">{site.location}</span>
         </div>
 
@@ -30,14 +30,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      <MentalMathChallenge />
-
       <section className="site-shell section-block selected-work-section" aria-labelledby="selected-work-title">
         <div className="section-heading-row">
           <div>
             <SectionLabel>Selected work</SectionLabel>
             <h2 id="selected-work-title" className="sr-only">Selected work</h2>
-            <p className="section-voice">These are the four I’d show first.</p>
+            <p className="section-voice">Four systems that best show how I work.</p>
           </div>
           <Link href="/work" className="text-link desktop-only">View all work <ArrowRightIcon size={14} /></Link>
         </div>
@@ -50,6 +48,8 @@ export default function HomePage() {
           <Link href="/work" className="text-link">View all work <ArrowRightIcon size={14} /></Link>
         </div>
       </section>
+
+      <MentalMathChallenge />
 
       <section className="site-shell contact-cta">
         <div className="icon-label"><MailIcon size={14} /><SectionLabel>Contact</SectionLabel></div>

@@ -15,7 +15,7 @@ export default function WorkPage() {
       <section className="page-intro work-intro">
         <div className="icon-label"><WorkIcon size={14} /><SectionLabel>Work</SectionLabel></div>
         <h1 className="page-title">Work.</h1>
-        <p className="page-voice">These are the four I’d show first. The rest is here if you want to keep digging.</p>
+        <p className="page-voice">Four systems that best show how I work. The rest is here if you want to keep digging.</p>
       </section>
 
       <section className="work-section" aria-labelledby="selected-work-heading">

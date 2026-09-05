@@ -21,10 +21,10 @@
 
 The homepage shows exactly four selected projects, in order:
 
-1. Cotabato Pickleball
-2. MPW Dink & Dash 2026
-3. MPW Document Tracking System
-4. OCM The Clinic EMR and Inventory System
+1. MPW Dink & Dash 2026
+2. MPW Document Tracking System
+3. OCM The Clinic EMR and Inventory System
+4. Cotabato Pickleball
 
 All other projects are available under `/work` as a compact archive. The BIR workflow concept was removed because the project did not proceed.
 
@@ -40,10 +40,10 @@ Outbound npm registry access was unavailable in the execution environment, so a 
 
 - JSX syntax parsed with TypeScript's JSX parser without syntax errors.
 - CSS parsed with no stylesheet syntax errors.
-- 13 portfolio projects normalize successfully.
+- 15 portfolio projects normalize successfully.
 - Exactly four selected projects resolve in the required order.
 - All route slugs are unique.
-- All 43 referenced project image assets exist.
+- All 47 referenced project image assets exist.
 - No BIR project remains in normalized portfolio data.
 
 Run locally before deployment:
@@ -193,3 +193,17 @@ See `AGENTS.md`, `DESIGN_SYSTEM.md`, and `PHASE_3.md` for the current design con
 - Paired theme transition semantics: the effect selected for dark → light is reused for light → dark. Curtain-created/default light never invokes power just to turn dark.
 - Power-to-dark keeps the current aura through the contraction and clears it only during recovery.
 - Reworked the gray aura into independently moving flame contours/rising energy strokes and changed the radial light wipe to grow from a body-scale source circle with subtle origin rings.
+
+
+## Portfolio conversion pass — recruiter speed + proof
+
+- Moved `Selected work` directly below the hero and placed Mental Math after the four primary projects so operational proof appears before the personal interaction.
+- Reordered the Top 4 around system-ownership signal: MPW Dink & Dash 2026, MPW Document Tracking System, OCM The Clinic EMR and Inventory System, then Cotabato Pickleball.
+- Normalized `featured` / `featuredOrder` flags in project data so the content model matches the actual homepage selection.
+- Tightened the homepage positioning around designing, building, deploying, and maintaining workflow-heavy systems for government, healthcare, community platforms, and automation.
+- Added a compact project `Quick read` for problem, operating context, users, and verified proof before the long case study.
+- Reduced the default case-study read by showing only the highest-signal constraints/capabilities, while preserving full technical implementation, additional constraints, decisions, metrics, and next steps under one native `Engineering deep dive` disclosure.
+- Allowed original project color inside case-study media while keeping the homepage, `/work`, navigation, metadata, and portfolio shell monochrome.
+- Added curated captions to primary project visuals and the Document Tracking screenshot sequence so each image communicates what evidence it provides.
+- Reduced companion distraction: generic button clicks no longer trigger reactions, speed/trail feedback requires stronger movement, power mode is rare, and the π portal is armed only by a deliberate companion click.
+- Preserved reduced-motion behavior and the existing monochrome editorial system.

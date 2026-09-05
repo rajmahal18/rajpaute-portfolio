@@ -268,6 +268,7 @@ export default function MathCompanion() {
   const spawnIndexRef = useRef(0);
   const spawnIdRef = useRef(0);
   const portalIdRef = useRef(0);
+  const portalArmedRef = useRef(false);
   const idleScheduledRef = useRef(false);
   const dragRef = useRef({
     pointerId: null,
@@ -410,7 +411,7 @@ export default function MathCompanion() {
     if (!node) return;
     const speed = Math.abs(velocity);
 
-    if (speed < 24 || actionRef.current !== "idle") {
+    if (speed < 105 || actionRef.current !== "idle") {
       node.classList.remove("is-visible");
       return;
     }
@@ -646,7 +647,7 @@ export default function MathCompanion() {
       node.style.setProperty("--companion-wrist-right", `${armRight.wrist.toFixed(2)}deg`);
 
       const contact = Math.floor(gaitPhaseRef.current * 2);
-      if (contact !== trailContactRef.current && speed > 48) {
+      if (contact !== trailContactRef.current && speed > 125) {
         trailContactRef.current = contact;
         const footY = nextY + metrics.stageHeight * (130 / 154) + 1;
         const footSide = contact % 2 === 0 ? -1 : 1;
@@ -1376,6 +1377,9 @@ export default function MathCompanion() {
 
   const handleCompanionClick = useCallback(() => {
     if (suppressClickRef.current) return;
+    // Deliberate interaction unlocks one portal transition. Ordinary portfolio
+    // navigation stays immediate so the resident never competes with the work.
+    portalArmedRef.current = true;
     summonNext();
   }, [summonNext]);
 
@@ -1528,9 +1532,7 @@ export default function MathCompanion() {
       }
       if (actionType === "mental-next") {
         setTemporaryAction("pointing", 560);
-        return;
       }
-      if (target.matches("button")) setTemporaryAction("pointing", 520);
     };
 
     document.addEventListener("click", onPress, true);
@@ -1542,7 +1544,9 @@ export default function MathCompanion() {
 
     const onRouteIntent = (event) => {
       if (typeof event.detail?.commit !== "function") return;
+      if (!portalArmedRef.current) return;
       if (isThemeChoreography(actionRef.current) || isPortalChoreography(actionRef.current)) return;
+      portalArmedRef.current = false;
       const claimed = startPortalNavigation(event.detail);
       if (claimed) event.preventDefault();
     };

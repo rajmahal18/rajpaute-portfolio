@@ -1,6 +1,6 @@
 import { projects } from "./projects.js";
 
-export const FEATURED_PROJECT_IDS = [13, 14, 2, 11];
+export const FEATURED_PROJECT_IDS = [14, 2, 11, 13];
 
 const overrides = {
   13: {
