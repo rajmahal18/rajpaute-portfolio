@@ -7,3 +7,10 @@ MATH_SESSION_SECRET=replace-with-a-long-random-secret
 # GitHub GraphQL token for the live contribution calendar
 GITHUB_TOKEN=
 GITHUB_USERNAME=rajmahal18
+
+# OpenDota-backed Dota 2 activity calendar (Steam32 friend/account ID preferred)
+# A SteamID64 also works; the server converts it to Steam32.
+DOTA_ACCOUNT_ID=
+DOTA_TIME_ZONE=Asia/Manila
+# Optional: higher OpenDota request limits. Keep server-side only.
+OPENDOTA_API_KEY=

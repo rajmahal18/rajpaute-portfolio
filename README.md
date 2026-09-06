@@ -22,7 +22,7 @@ npm run preview
 - `/work` — full work archive
 - `/work/:slug` — dedicated project case-study page
 - `/work/:slug/screens/:index` — page-based screenshot viewer
-- `/about` — background, inline quick questions, current learning, tech stack, live monochrome GitHub activity, credentials
+- `/about` — background, inline quick questions, current learning, tech stack, live monochrome GitHub + Dota 2 activity, credentials
 - `/contact` — direct contact and external links
 - unlinked owner benchmark route — authenticated mental-math benchmark recording; see `PHASE_4.md`
 
@@ -51,12 +51,16 @@ Project case-study content lives in `src/data/projects.js`. Display-name/order/s
 
 ## Mental math
 
-Phase 4 adds a 50-question original mental-math bank and a one-problem-at-a-time homepage challenge. Phase 4.5 adds answer/solution reveal, session-safe no-repeat rotation, interrupted-attempt handling, contact cleanup, and metadata consistency. Phase 4.6 adds proper inline math typesetting plus the live black-and-white GitHub contribution calendar on About. Phase 4.7 adds the restrained first-person voice layer, About quick questions, and corrected inline fraction alignment. Math Animation Phase 1 introduced the first living math presence. Math Animation Phase 2 turns it into a site-aware interactive math companion: its horizontal position follows page progress, its planted-step gait/pointer reactions respond to the viewer, a tiny velocity readout and short-lived math foot trail reinforce motion without becoming a HUD, it physically operates the continuous light/dark shutter, and it can spawn a small reusable vocabulary of operators and geometric figures. See `PHASE_4.md` through `PHASE_4_7.md`, `MATH_ANIMATION_PHASE_1.md`, and `MATH_ANIMATION_PHASE_2.md`.
+Phase 4 adds a 50-question original mental-math bank and a one-problem-at-a-time homepage challenge. Phase 4.5 adds answer/solution reveal, session-safe no-repeat rotation, interrupted-attempt handling, contact cleanup, and metadata consistency. Phase 4.6 adds proper inline math typesetting plus the live black-and-white GitHub contribution calendar on About. Phase 4.7 adds the restrained first-person voice layer, About quick questions, and corrected inline fraction alignment. Math Animation Phase 1 introduced the first living math presence. Math Animation Phase 2 turns it into a site-aware interactive math companion: its horizontal position follows page progress, its planted-step gait/pointer reactions respond to the viewer, a tiny velocity readout and short-lived math foot trail reinforce motion without becoming a HUD, it reacts to the light/dark shutter without leaving the scroll track, and it can spawn a small reusable vocabulary of operators and geometric figures. See `PHASE_4.md` through `PHASE_4_7.md`, `MATH_ANIMATION_PHASE_1.md`, and `MATH_ANIMATION_PHASE_2.md`.
 
 
 ## GitHub activity
 
 The About-page contribution calendar is fetched server-side through `functions/api/github/contributions.js` using GitHub GraphQL. Add `GITHUB_TOKEN` to Cloudflare production secrets (or `.dev.vars` for local Wrangler testing). `GITHUB_USERNAME` is optional and defaults to `rajmahal18`. No GitHub token is shipped to the browser.
+
+## Dota 2 activity
+
+The About-page Dota calendar uses the same monochrome contribution-grid treatment and fetches match timestamps server-side through `functions/api/dota/activity.js`. Set `DOTA_ACCOUNT_ID` to the Steam32/Dota friend ID in Cloudflare production variables (a SteamID64 is also accepted). `DOTA_TIME_ZONE` defaults to `Asia/Manila`; `OPENDOTA_API_KEY` is optional. The client receives only the aggregated last-365-day activity grid, not API credentials.
 
 
 ## Math animation phase 3

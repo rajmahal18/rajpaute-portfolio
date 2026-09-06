@@ -3,6 +3,7 @@ import { credentials, site, stackGroups, timeline } from "../data/site";
 import { usePageMeta } from "../lib/meta";
 import SectionLabel from "../components/SectionLabel";
 import GitHubActivity from "../components/GitHubActivity";
+import DotaActivity from "../components/DotaActivity";
 import QuickQuestions from "../components/QuickQuestions";
 import { ArrowUpRightIcon, ResumeIcon, UserIcon } from "../components/Icons";
 
@@ -57,6 +58,7 @@ export default function AboutPage() {
       </section>
 
       <GitHubActivity />
+      <DotaActivity />
 
       <section className="about-section">
         <div className="section-heading-row section-heading-row--compact">

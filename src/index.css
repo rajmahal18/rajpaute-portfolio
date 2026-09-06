@@ -952,15 +952,15 @@ figure { margin: 0; }
   vertical-align: super;
 }
 
-/* GitHub contribution calendar — familiar structure, portfolio-native monochrome rendering. */
-.github-activity-section { position: relative; }
-.github-contribution-count {
+/* Shared activity calendars — familiar contribution-grid structure, portfolio-native monochrome rendering. */
+.activity-section { position: relative; }
+.activity-count {
   margin: 34px 0 16px;
   font-family: var(--display);
   font-size: clamp(18px, 1.7vw, 23px);
   line-height: 1.2;
 }
-.github-activity-state {
+.activity-state {
   margin-top: 34px;
   padding-block: 24px;
   border-top: 1px solid var(--line);
@@ -968,12 +968,12 @@ figure { margin: 0; }
   font-size: 10px;
   color: var(--muted);
 }
-.github-calendar-frame {
+.activity-calendar-frame {
   position: relative;
   border: 1px solid var(--line);
   background: var(--paper);
 }
-.github-calendar-scroll {
+.activity-calendar-scroll {
   width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
@@ -981,75 +981,75 @@ figure { margin: 0; }
   scrollbar-width: thin;
   scrollbar-color: var(--line-strong) transparent;
 }
-.github-calendar {
-  --github-cell: 9px;
-  --github-gap: 3px;
+.activity-calendar {
+  --activity-cell: 9px;
+  --activity-gap: 3px;
   min-width: max-content;
   padding: 18px 18px 14px;
   color: var(--ink);
 }
-.github-month-row {
+.activity-month-row {
   display: grid;
   grid-template-columns: 31px auto;
   column-gap: 8px;
   margin-bottom: 7px;
 }
-.github-month-grid {
+.activity-month-grid {
   display: grid;
-  column-gap: var(--github-gap);
+  column-gap: var(--activity-gap);
   height: 12px;
   position: relative;
 }
-.github-month-grid span {
+.activity-month-grid span {
   grid-row: 1;
   width: max-content;
   font-size: 7px;
   line-height: 1;
   color: var(--muted);
 }
-.github-calendar-body {
+.activity-calendar-body {
   display: grid;
   grid-template-columns: 31px auto;
   column-gap: 8px;
 }
-.github-day-labels {
+.activity-day-labels {
   display: grid;
-  grid-template-rows: repeat(7, var(--github-cell));
-  row-gap: var(--github-gap);
+  grid-template-rows: repeat(7, var(--activity-cell));
+  row-gap: var(--activity-gap);
   font-size: 7px;
   color: var(--muted);
 }
-.github-day-labels span { align-self: center; }
-.github-weeks {
+.activity-day-labels span { align-self: center; }
+.activity-weeks {
   display: grid;
-  column-gap: var(--github-gap);
+  column-gap: var(--activity-gap);
 }
-.github-week {
+.activity-week {
   display: grid;
-  grid-template-rows: repeat(7, var(--github-cell));
-  row-gap: var(--github-gap);
+  grid-template-rows: repeat(7, var(--activity-cell));
+  row-gap: var(--activity-gap);
 }
-.github-day {
-  width: var(--github-cell);
-  height: var(--github-cell);
-  min-width: var(--github-cell);
-  min-height: var(--github-cell);
+.activity-day {
+  width: var(--activity-cell);
+  height: var(--activity-cell);
+  min-width: var(--activity-cell);
+  min-height: var(--activity-cell);
   padding: 0;
   border: 1px solid var(--line);
   border-radius: 1px;
   background: var(--paper);
 }
-button.github-day {
+button.activity-day {
   appearance: none;
   cursor: default;
 }
-.github-day--empty { visibility: hidden; }
-.github-day--0 { background: var(--wash); }
-.github-day--1 { background: color-mix(in srgb, var(--ink) 19%, var(--paper)); }
-.github-day--2 { background: color-mix(in srgb, var(--ink) 40%, var(--paper)); }
-.github-day--3 { background: color-mix(in srgb, var(--ink) 67%, var(--paper)); }
-.github-day--4 { background: var(--ink); border-color: var(--ink); }
-.github-calendar-footer {
+.activity-day--empty { visibility: hidden; }
+.activity-day--0 { background: var(--wash); }
+.activity-day--1 { background: color-mix(in srgb, var(--ink) 19%, var(--paper)); }
+.activity-day--2 { background: color-mix(in srgb, var(--ink) 40%, var(--paper)); }
+.activity-day--3 { background: color-mix(in srgb, var(--ink) 67%, var(--paper)); }
+.activity-day--4 { background: var(--ink); border-color: var(--ink); }
+.activity-calendar-footer {
   margin-top: 12px;
   display: flex;
   align-items: center;
@@ -1058,8 +1058,8 @@ button.github-day {
   font-size: 7px;
   color: var(--muted);
 }
-.github-legend { display: flex; gap: 3px; }
-.github-tooltip {
+.activity-legend { display: flex; gap: 3px; }
+.activity-tooltip {
   position: absolute;
   z-index: 5;
   transform: translate(-50%, calc(-100% - 8px));
@@ -1075,18 +1075,18 @@ button.github-day {
 }
 
 @media (max-width: 720px) {
-  .github-contribution-count { margin-top: 28px; font-size: 18px; }
-  .github-calendar { --github-cell: 8px; --github-gap: 2px; padding: 15px 14px 12px; }
-  .github-month-row, .github-calendar-body { grid-template-columns: 28px auto; column-gap: 6px; }
-  .github-month-grid span, .github-day-labels, .github-calendar-footer { font-size: 6.5px; }
-  .github-calendar-scroll { padding-bottom: 2px; }
+  .activity-count { margin-top: 28px; font-size: 18px; }
+  .activity-calendar { --activity-cell: 8px; --activity-gap: 2px; padding: 15px 14px 12px; }
+  .activity-month-row, .activity-calendar-body { grid-template-columns: 28px auto; column-gap: 6px; }
+  .activity-month-grid span, .activity-day-labels, .activity-calendar-footer { font-size: 6.5px; }
+  .activity-calendar-scroll { padding-bottom: 2px; }
 }
 
 /* Phase 4.7 — authored voice and corrected inline fraction alignment. */
 .section-voice,
 .page-voice,
 .contact-page-note,
-.github-voice,
+.activity-voice,
 .project-end-note {
   color: var(--muted);
 }
@@ -1108,7 +1108,7 @@ button.github-day {
   font-size: 11px;
   line-height: 1.75;
 }
-.github-voice {
+.activity-voice {
   margin: -4px 0 18px;
   max-width: 500px;
   font-size: 10px;
@@ -1239,7 +1239,7 @@ button.github-day {
   .section-voice { margin-top: 8px; font-size: 9px; }
   .page-voice { margin-top: 20px; font-size: 11px; }
   .contact-page-note { margin-top: 20px; font-size: 10px; }
-  .github-voice { font-size: 9px; }
+  .activity-voice { font-size: 9px; }
   .project-end-nav { align-items: flex-start; flex-direction: column; gap: 18px; }
   .project-end-note { font-size: 9px; }
   .quick-questions-heading { align-items: flex-start; flex-direction: column; gap: 10px; }

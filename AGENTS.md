@@ -117,10 +117,10 @@ Do not alternate between `Projects`, `Portfolio`, `Case Studies`, and `Work` for
 
 - Mental-math equations must never fall back to ambiguous raw slash notation when a stacked fraction or superscript improves readability. Render public and owner prompts/solutions through the shared `MathText` component.
 - Keep math typography restrained and native to the existing serif/sans system. Do not introduce a visually unrelated equation theme.
-- The About page may show the live GitHub contribution calendar, but it must remain monochrome and structurally familiar rather than becoming a custom analytics dashboard.
-- GitHub contribution intensity uses only black/white mixing and must invert naturally with the site theme. Never restore GitHub green.
-- The contribution graph may use its own local horizontal scroller on narrow screens. It must never create page-level horizontal overflow.
-- `GITHUB_TOKEN` is server-side only. Never put GitHub credentials or tokens in Vite/client code.
+- The About page may show the live GitHub contribution calendar and a matching Dota 2 activity calendar, but both must remain monochrome and structurally familiar rather than becoming custom analytics dashboards.
+- GitHub and Dota activity intensity use only black/white mixing and must invert naturally with the site theme. Never restore GitHub green or add Dota branding colors.
+- Activity graphs may use their own local horizontal scroller on narrow screens. They must never create page-level horizontal overflow.
+- `GITHUB_TOKEN` and optional `OPENDOTA_API_KEY` are server-side only. Never put API credentials or tokens in Vite/client code.
 
 ## Phase 4.7 — Authored voice
 
@@ -151,9 +151,9 @@ Do not alternate between `Projects`, `Portfolio`, `Case Studies`, and `Work` for
 - A tiny movement-only math trail is allowed at foot contact, capped to a few faint marks that disappear within a fraction of a second. A tiny unboxed `v = … u/s` readout may appear only while walking/running. Both must disappear at rest and must never become a persistent HUD, particle field, glow, or progress indicator.
 - Keep the character visually secondary. The current baseline is deliberately smaller than the earlier Phase 2 figure; do not enlarge it casually or place it over primary reading areas.
 - UI choreography should include anticipation, follow-through, rest, and recovery when visible enough to matter. Avoid obvious two-pose jumps.
-- Theme switching no longer uses a thrown math object. The companion itself operates the shutter: dark closes top-to-bottom and leaves the figure briefly at the bottom; light opens bottom-to-top and leaves it briefly at the top.
+- Theme switching no longer uses a thrown math object. The page-level shutter still closes/opens normally, but the companion stays grounded on its scroll track and only performs a restrained local reaction; do not make it jump to the top/bottom of the viewport for theme changes.
 - The theme shutter is a **background transition**. Site content remains above/readable during the wipe, and the effect must stay `pointer-events: none` so browsing continues normally.
-- Scroll target updates continue while the companion is performing the shutter action; after the short edge rest it returns to the latest scroll position rather than an obsolete one. Keep the live stage Y separate from the normal track target Y so scroll/resize updates cannot teleport the figure mid-curtain. Prep, pull, edge hold, and rejoin must continue from the exact previous coordinate, with real leap/drop/landing motion instead of stage-transform snaps.
+- Scroll target updates continue while the companion reacts to the shutter. Theme choreography must not alter the companion's stage position; after the local reaction it resumes pursuit of the latest scroll target without a jump or teleport.
 
 
 ## Math companion Phase 3 — resident behavior, gait states, sound, and π portal
@@ -172,7 +172,7 @@ Do not alternate between `Projects`, `Portfolio`, `Case Studies`, and `Work` for
 - Power mode must use the companion's exact live viewport position as the source. Dark → light expands a white circle from the figure; light → dark contracts the remaining white circle back into the figure before settling dark.
 - Power mode uses only a restrained gray layered energy contour around the figure. Avoid literal flame tongues, yellow/color, glow filters, gradients, particle fields, large screen shake, or a long anime cutscene.
 - The radial layer stays behind portfolio content and `pointer-events: none`. Browsing/scrolling must remain usable throughout the transition.
-- Do not replace or degrade the existing curtain behavior. The two theme effects are alternatives, not a combined spectacle.
+- Preserve the page-level curtain wipe and the alternate power effect. The companion's curtain reaction stays grounded; do not reintroduce the old viewport jump choreography.
 
 ## Companion resident polish
 

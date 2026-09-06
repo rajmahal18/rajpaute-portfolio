@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ROUTE_INTENT_EVENT, useRouter } from "../lib/router";
-import { playCurtainSwish, playSoftLanding, unlockCompanionAudio } from "../lib/companionAudio";
+import { playCurtainSwish, unlockCompanionAudio } from "../lib/companionAudio";
 import {
   MATH_COMPANION_EVENT,
   THEME_CURTAIN_DURATION_MS,
-  THEME_CURTAIN_EDGE_HOLD_MS,
   THEME_CURTAIN_PREP_MS,
   THEME_CURTAIN_RETURN_MS,
   THEME_POWER_DURATION_MS,
@@ -843,8 +842,8 @@ export default function MathCompanion() {
   const startThemeCurtainAction = useCallback((targetTheme) => {
     if (reducedMotion) return;
 
-    // Curtain mode explicitly returns the resident to the ordinary state.
-    // This prevents a power aura from leaking across randomly selected theme effects.
+    // Theme changes should not pull the resident off the scroll track. Keep the
+    // small grounded reaction, but let the page-level curtain own the transition.
     setPoweredState(false);
     unlockCompanionAudio();
     clearActionTimers();
@@ -856,86 +855,29 @@ export default function MathCompanion() {
     velocityXRef.current = 0;
     hideSpeedReadout();
     clearIdleTimers();
-    const wasMeditating = meditatingRef.current || actionRef.current === "standing-up";
+
     meditatingRef.current = false;
     setMeditating(false);
     setResting(false);
     setMovementState("idle");
     resetGaitPose();
     relaxLook();
+    setActionState("theme-stand");
 
-    const closing = targetTheme === "dark";
-    const metrics = viewportMetrics();
-    const topY = 4;
-    const bottomY = Math.max(0, metrics.height - metrics.stageHeight - 4);
-    const prepTargetY = closing ? topY : bottomY;
-    const standDuration = wasMeditating ? 280 : 0;
-    const travelDuration = Math.max(320, THEME_CURTAIN_PREP_MS - standDuration);
-
-    const beginReach = () => {
-      stageRef.current?.style.setProperty("--companion-leap-duration", `${travelDuration}ms`);
-      setActionState(closing ? "leap-up" : "drop-bottom");
-      animateStageTo({
-        x: currentXRef.current,
-        y: prepTargetY,
-        duration: travelDuration,
-        easing: closing ? easeOutCubic : easeInOutCubic,
-        arcX: closing ? facingRef.current * 7 : facingRef.current * 3,
-        arcY: closing ? 12 : 4,
-      });
-    };
-
-    if (wasMeditating) {
-      setActionState("theme-stand");
-      const standTimer = window.setTimeout(beginReach, standDuration);
-      actionTimersRef.current.push(standTimer);
-    } else {
-      beginReach();
-    }
-
-    const pullTimer = window.setTimeout(() => {
-      const liveMetrics = viewportMetrics();
-      const liveTopY = 4;
-      const liveBottomY = Math.max(0, liveMetrics.height - liveMetrics.stageHeight - 4);
-      playCurtainSwish(closing ? "closing" : "opening");
-      setActionState(closing ? "curtain-down" : "curtain-up");
-      animateStageTo({
-        x: currentXRef.current,
-        y: closing ? liveBottomY : liveTopY,
-        duration: THEME_CURTAIN_DURATION_MS,
-        easing: easeInOutCubic,
-      });
+    const gestureTimer = window.setTimeout(() => {
+      playCurtainSwish(targetTheme === "dark" ? "closing" : "opening");
+      setActionState(targetTheme === "dark" ? "curtain-down" : "curtain-up");
     }, THEME_CURTAIN_PREP_MS);
-    actionTimersRef.current.push(pullTimer);
+    actionTimersRef.current.push(gestureTimer);
 
-    const edgeTimer = window.setTimeout(() => {
-      playSoftLanding();
-      setActionState(closing ? "edge-bottom" : "edge-top");
-    }, THEME_CURTAIN_PREP_MS + THEME_CURTAIN_DURATION_MS);
-    actionTimersRef.current.push(edgeTimer);
-
-    const rejoinTimer = window.setTimeout(() => {
-      const trackY = targetYRef.current;
-      setActionState(closing ? "rejoin-bottom" : "leap-down");
-      animateStageTo({
-        x: currentXRef.current,
-        y: trackY,
-        duration: closing ? Math.min(360, THEME_CURTAIN_RETURN_MS) : THEME_CURTAIN_RETURN_MS,
-        easing: easeInOutCubic,
-        arcX: closing ? 0 : facingRef.current * 8,
-        arcY: closing ? 0 : 8,
-        onComplete: () => {
-          playSoftLanding();
-          setActionState("idle");
-          resetGaitPose();
-          startMotionLoop();
-          scheduleRest();
-        },
-      });
-    }, THEME_CURTAIN_PREP_MS + THEME_CURTAIN_DURATION_MS + THEME_CURTAIN_EDGE_HOLD_MS);
-    actionTimersRef.current.push(rejoinTimer);
+    const finishTimer = window.setTimeout(() => {
+      setActionState("idle");
+      resetGaitPose();
+      startMotionLoop();
+      scheduleRest();
+    }, THEME_CURTAIN_PREP_MS + THEME_CURTAIN_DURATION_MS + 120);
+    actionTimersRef.current.push(finishTimer);
   }, [
-    animateStageTo,
     cancelActionMotion,
     clearActionTimers,
     clearIdleTimers,
