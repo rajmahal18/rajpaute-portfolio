@@ -954,6 +954,8 @@ figure { margin: 0; }
 
 /* Shared activity calendars — familiar contribution-grid structure, portfolio-native monochrome rendering. */
 .activity-section { position: relative; }
+.github-activity-section { padding-bottom: clamp(61.5px, 6.75vw, 90px); }
+.github-activity-section + .dota-activity-section { padding-top: clamp(61.5px, 6.75vw, 90px); }
 .activity-count {
   margin: 34px 0 16px;
   font-family: var(--display);
