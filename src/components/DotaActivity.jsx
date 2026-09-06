@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ActivityCalendar from "./ActivityCalendar";
-import { ArrowUpRightIcon, GameIcon } from "./Icons";
+import { ArrowUpRightIcon } from "./Icons";
 import SectionLabel from "./SectionLabel";
 
 const TOOLTIP_DATE_FORMATTER = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
@@ -37,7 +37,7 @@ export default function DotaActivity() {
 
   const heading = (
     <div className="section-heading-row section-heading-row--compact">
-      <div className="icon-label"><GameIcon size={14} /><SectionLabel>Dota 2 activity</SectionLabel></div>
+      <div className="icon-label"><span className="dota-activity-icon" aria-hidden="true" /><SectionLabel>Dota 2 activity</SectionLabel></div>
       {state.status === "ready" && (
         <a href={profileHref} target="_blank" rel="noreferrer" className="icon-text-link">
           View OpenDota <ArrowUpRightIcon size={13} />
